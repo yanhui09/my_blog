@@ -1,6 +1,6 @@
 baseURL = "/"
 languageCode = "en-us"
-title = "Yannnnno"
+title = "Yan Hui"
 theme = "hugo-ink"
 paginate = 5
 
@@ -14,7 +14,7 @@ googleAnalytics = "UA-123-45"
 disqusShortname = "ink-demo"
 
 [params]
-	subtitle = "Personal [blog for Yan Hui](https://yanhui.netlify.app/)"
+	subtitle = "[Personal website](https://yanhui.netlify.app/)"
 
 	# Optional 64x64 avatar image.
 	avatar = "https://icons.iconarchive.com/icons/iconka/meow/64/cat-clean-icon.png"
