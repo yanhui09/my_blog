@@ -1,4 +1,4 @@
-baseURL = "https://yanhui.netlify.app"
+baseURL = "https://yanhui.netlify.app/"
 languageCode = "en-us"
 title = "Yan Hui"
 theme = "hugo-ink"
@@ -14,7 +14,7 @@ googleAnalytics = "UA-145387507-1"
 disqusShortname = "yanhui"
 
 [params]
-	subtitle = "[Personal website](https://yanhui.netlify.app)"
+	subtitle = "[Personal website](https://yanhui.netlify.app/)"
 
 	# Optional 64x64 avatar image.
 	avatar = "https://icons.iconarchive.com/icons/iconka/meow/64/cat-clean-icon.png"
