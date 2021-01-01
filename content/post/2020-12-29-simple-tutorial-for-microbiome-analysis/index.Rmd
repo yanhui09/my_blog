@@ -5,7 +5,7 @@ date: '`r Sys.Date()`'
 tags:
   - Microbiome
   - R
-draft: no
+draft: FALSE
 ---
 
 ```{r startup, include = FALSE}
@@ -188,6 +188,7 @@ tab.observed
 
 ```{r, echo = FALSE}
 DT::datatable(tab.observed, rownames = FALSE)
+
 ```
 
 Similarly for Shannon diversity,

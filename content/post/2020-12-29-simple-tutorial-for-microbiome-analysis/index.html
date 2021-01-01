@@ -5,7 +5,7 @@ date: '2021-01-01'
 tags:
   - Microbiome
   - R
-draft: no
+draft: yes
 ---
 
 <script src="index_files/htmlwidgets/htmlwidgets.js"></script>
@@ -157,6 +157,7 @@ tab.observed &lt;- wilcox.observed$p.value %&gt;%
   gather(key=&quot;group2&quot;, value=&quot;p.adj&quot;, -group1) %&gt;%
   na.omit()
 tab.observed</code></pre>
+<pre class="r"><code>DT::datatable(tab.observed, rownames = FALSE)</code></pre>
 <div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","data":[["left palm","right palm","tongue","right palm","tongue","tongue"],["gut","gut","gut","left palm","left palm","right palm"],[0.309861519622914,1,0.0026441634012951,1,0.0026441634012951,0.0157960566577091]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>group1<\/th>\n      <th>group2<\/th>\n      <th>p.adj<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>Similarly for Shannon diversity,</p>
