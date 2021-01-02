@@ -44,7 +44,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
 	# customJS = ["js/custom.js", "js/custom1.js"]  # Custom JS scripts.
 
 [params.logo]
-    url = "https://icons.iconarchive.com/icons/iconka/meow/64/cat-clean-icon.png"
+    url = "logo.png"
     width = 50
     height = 50
     alt = "Logo"

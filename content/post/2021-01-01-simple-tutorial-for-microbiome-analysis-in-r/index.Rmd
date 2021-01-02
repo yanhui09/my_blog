@@ -11,7 +11,9 @@ description: Introduction to microbiome analysis.
 output:
    blogdown::html_page:
      toc: true
-
+     fig_width: 8
+     highlight: "pygments"
+     dev: "png"
 ---
 
 ```{r startup, include = FALSE}
@@ -155,7 +157,7 @@ ps
 
 ## Check the sequencing depth with rarefaction curve
 
-```{r, echo=FALSE}
+```{r, rarefaction, echo=FALSE}
 rarecurve(t(otu_table(ps)), step=50, cex=0.5)
 
 ```
@@ -188,7 +190,7 @@ The sequencing depth of all remaining `r ncol(otu_table(ps.rarefied))` samples i
 
 Alpha diversity metrics assess the species diversity within the ecosystems, telling you how diverse a sequenced community is.
 
-```{r}
+```{r, alpha_diversity}
 plot_richness(ps.rarefied, x="body.site", measures=c("Observed", "Shannon")) +
   geom_boxplot() +
   theme_classic() +
@@ -234,10 +236,10 @@ Beta diversity assess the dissimilarity between ecosystem, telling you to what e
 
 #### [PCoA](https://mb3is.megx.net/gustame/dissimilarity-based-methods/principal-coordinates-analysis) and [PERMANOVA/ADONIS](https://mb3is.megx.net/gustame/hypothesis-tests/manova/npmanova)
 
-- Bray curtis
+- *Bray curtis*
 
 `distance` is in overlapped use, so we specify the package by `phyloseq::distance`
-```{r}
+```{r, pcoa_bray}
 dist = phyloseq::distance(ps.rarefied, method="bray")
 ordination = ordinate(ps.rarefied, method="PCoA", distance=dist)
 plot_ordination(ps.rarefied, ordination, color="body.site") + 
@@ -245,7 +247,7 @@ plot_ordination(ps.rarefied, ordination, color="body.site") +
   theme(strip.background = element_blank())
 ```
 
-PERMANOVA/ADONIS
+*PERMANOVA/ADONIS*
 ```{r, results = FALSE, message = FALSE}
 metadata <- data.frame(sample_data(ps.rarefied))
 test.adonis <- adonis(dist ~ body.site, data = metadata)
@@ -257,7 +259,7 @@ test.adonis
 DT::datatable(test.adonis)
 ```
 
-PAIRWISE PERMANOVA
+*PAIRWISE PERMANOVA*
 ```{r, results = FALSE, message = FALSE}
 cbn <- combn(x=unique(metadata$body.site), m = 2)
 p <- c()
@@ -284,9 +286,9 @@ As we could see, there's no difference in composition between the left and right
 
 Given that the microbiome data is compositional and sparse, non-parametric multidimentional scaling (NMDS) is favored sometimes, which usually alinged with ANOSIM test.
 
-- Binary Jaccard
+- *Binary Jaccard*
 
-```{r, results = FALSE, message = FALSE}
+```{r, nmds_jaccard, results = FALSE, message = FALSE}
 dist = phyloseq::distance(ps.rarefied, method="jaccard", binary = TRUE)
 ordination = ordinate(ps.rarefied, method="NMDS", distance=dist)
 ```
@@ -297,13 +299,13 @@ plot_ordination(ps.rarefied, ordination, color="body.site") +
   theme(strip.background = element_blank())
 ```
 
-ANOSIM
+*ANOSIM*
 ```{r}
 metadata <- data.frame(sample_data(ps.rarefied))
 anosim(dist, metadata$body.site)
 ```
 
-PAIRWISE ANOSIM
+*PAIRWISE ANOSIM*
 ```{r}
 cbn <- combn(x=unique(metadata$body.site), m = 2)
 p <- c()
@@ -329,8 +331,8 @@ The NMDS and ANOSIM result were similar to that from PCoA and ADONIS.
 
 Here the demos use un-rarefied table to show all detected tags. 
 
-- Phylum 
-```{r, message = FALSE}
+- *Phylum* 
+```{r, phylum_abun, message = FALSE}
 ps.rel = transform_sample_counts(ps, function(x) x/sum(x)*100)
 # agglomerate taxa
 glom <- tax_glom(ps.rel, taxrank = 'Phylum', NArm = FALSE)
@@ -360,8 +362,8 @@ ggplot(ps.melt_sum, aes(x = Sample, y = Abundance, fill = Phylum)) +
 ```
 `< 1%` indicates rare taxa in each group, with median relative abundance < 1%.
 
-- Genus
-```{r, message = FALSE}
+- *Genus*
+```{r, genus_abun, message = FALSE}
 ps.rel = transform_sample_counts(ps, function(x) x/sum(x)*100)
 # agglomerate taxa
 glom <- tax_glom(ps.rel, taxrank = 'Genus', NArm = FALSE)
@@ -426,7 +428,7 @@ ps.taxa.rel.sig <- prune_samples(colnames(otu_table(ps.taxa.pse.sub)), ps.taxa.r
 Visualize these biomarkers in heatmap using R package [ComplexHeatmap](https://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html), which is a improved package on the basis of pheatmap. A detailed reference book about ComplexHeatmap is [here](https://jokergoo.github.io/ComplexHeatmap-reference/book/). I like it because of its flexibility relative to built-in heatmap(), gplots::heatmap.2(), pheatmap::pheatmap() and heatmap3::heatmap(). However, the mentioned ones can also be adopted given the same theory of heatmap. The added function [ComplexHeatmap::pheatmap](https://jokergoo.github.io/ComplexHeatmap-reference/book/integrate-with-other-packages.html#pheatmap) inherited most settings of pheatmap, so I adopt it to make code easily understood.
 
 To make `pheatmap` specfic, the package is specified as ComplexHeatmap::pheatmap
-```{r}
+```{r, deseq2}
 matrix <- as.matrix(data.frame(otu_table(ps.taxa.rel.sig)))
 rownames(matrix) <- as.character(tax_table(ps.taxa.rel.sig)[, "Species"]) # use species name as rownames
 metadata_sub <- data.frame(sample_data(ps.taxa.rel.sig))
@@ -479,7 +481,7 @@ ps.taxa.rel.sig <- prune_samples(colnames(otu_table(ps.taxa.sub)), ps.taxa.rel.s
 ``` 
 
 Repeat heatmap script for the ANCOM result
-```{r}
+```{r, ancombc}
 matrix <- as.matrix(data.frame(otu_table(ps.taxa.rel.sig)))
 rownames(matrix) <- as.character(tax_table(ps.taxa.rel.sig)[, "Species"]) # use species name as rownames
 metadata_sub <- data.frame(sample_data(ps.taxa.rel.sig))
