@@ -510,4 +510,4 @@ ComplexHeatmap::pheatmap(matrix, scale= "row", annotation_col = annotation_col, 
 
 The *mini*-tour shall end here. In that you know how to import the microbiome data in R, you can continue exploring your data according to diverse tutorials including [phyloseq](https://joey711.github.io/phyloseq/) from U.S., [ampvis2](https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html) from Denmark, and [MicrobiotaProcess](https://yulab-smu.top/MicrobiotaProcessWorkshop/articles/MicrobiotaProcessWorkshop.html) from China. 
 
-If you want a GUI software for your microbiome analysis, you may like [microbiomeanalyst](https://www.microbiomeanalyst.ca/), which was recently published on [Nature protocol](https://www.nature.com/articles/s41596-019-0264-1). I haven't tried it in that I hate mouse clicking.`r emo::ji("munch")`
+If you want a GUI software for your microbiome analysis, you may like [microbiomeanalyst](https://www.microbiomeanalyst.ca/), which was recently published on [Nature protocol](https://www.nature.com/articles/s41596-019-0264-1). I haven't tried it yet in that I hate mouse clicking.`r emo::ji("munch")`
