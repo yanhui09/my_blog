@@ -12,9 +12,23 @@ pygmentscodefencesguesssyntax = true
 
 googleAnalytics = "UA-145387507-1"
 disqusShortname = "yanhui"
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
 
 [params]
-	subtitle = "[Personal website](https://yanhui.netlify.app/)"
+	subtitle = "Be true, be wild and be happy"
+	author = "Yan Hui"
+	description = "Yan's personal website."
+	
+  highlightjsVersion = "10.5.0"
+  highlightjsCDN = "//cdnjs.cloudflare.com/ajax/libs"
+  highlightjsLang = ["r", "yaml", "bash", "python"]
+  highlightjsTheme = "github"
+  
+  MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
+  MathJaxVersion = "3.1.2"
 
 	# Optional 64x64 avatar image.
 	avatar = "https://icons.iconarchive.com/icons/iconka/meow/64/cat-clean-icon.png"
@@ -29,6 +43,12 @@ disqusShortname = "yanhui"
 	# customDarkCSS = "css/custom-dark.css"  # Custom styles applied to dark mode css.
 	# customJS = ["js/custom.js", "js/custom1.js"]  # Custom JS scripts.
 
+[params.logo]
+    url = "https://icons.iconarchive.com/icons/iconka/meow/64/cat-clean-icon.png"
+    width = 50
+    height = 50
+    alt = "Logo"
+    
 # Nav.
 [[menu.main]]
 name = "Home"
