@@ -8,8 +8,18 @@ tags:
 slug: Microbiome-R
 draft: no
 description: Introduction to microbiome analysis.
+output:
+   blogdown::html_page:
+     toc: true
+
 ---
 
+<script src="index_files/clipboard/clipboard.min.js"></script>
+<link href="index_files/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+<script src="index_files/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+<script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+<link href="index_files/font-awesome/css/all.css" rel="stylesheet" />
+<link href="index_files/font-awesome/css/v4-shims.css" rel="stylesheet" />
 <script src="index_files/htmlwidgets/htmlwidgets.js"></script>
 <script src="index_files/jquery/jquery.min.js"></script>
 <link href="index_files/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
@@ -20,6 +30,21 @@ description: Introduction to microbiome analysis.
 <link href="index_files/crosstalk/css/crosstalk.css" rel="stylesheet" />
 <script src="index_files/crosstalk/js/crosstalk.min.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#what-will-you-work-on">What will you work on</a></li>
+<li><a href="#preparation">Preparation</a></li>
+<li><a href="#build-phyloseq-project">Build phyloseq project</a></li>
+<li><a href="#check-the-sequencing-depth-with-rarefaction-curve">Check the sequencing depth with rarefaction curve</a></li>
+<li><a href="#alpha-diversity">Alpha diversity</a></li>
+<li><a href="#beta-diversity">Beta diversity</a></li>
+<li><a href="#abundance-bar-plot">Abundance bar plot</a></li>
+<li><a href="#differential-abundance-analysis">Differential abundance analysis</a><ul>
+<li><a href="#deseq2">DESeq2</a></li>
+<li><a href="#ancom-bc">ANCOM-BC</a></li>
+</ul></li>
+</ul>
+</div>
 
 <p><strong>BEFORE YOU START:</strong> This is a <em>minimal tutorial</em> to visualize microbiome result with R. The tutorial starts from the processed output from metagenomic sequencing, e.g. feature matrix. It’s suitable for someone who wants to try a hand-on analysis, especially for <strong>R users</strong>, helping you understand the basic concepts of microbiome outputs. This tutorial will only give inspirations for some common analysis (alpha/beta diversity, differential abundance analysis)， but it shall be adequate if you only consider microbiome as a sub-story.</p>
 <ul>
@@ -27,7 +52,7 @@ description: Introduction to microbiome analysis.
 <li>This is a <strong>beginner tutorial</strong>. You still have time to run away if you’re an experienced bioinformatician. 👻</li>
 </ul>
 <div id="what-will-you-work-on" class="section level2">
-<h2>WHAT WILL YOU WORK ON</h2>
+<h2>What will you work on</h2>
 <p>After sequencing, you will get some (<a href="https://en.wikipedia.org/wiki/FASTQ_format">fastq</a>/<a href="https://nanoporetech.com/nanopore-sequencing-data-analysis">fast5</a>/<a href="http://files.pacb.com/software/instrument/2.0.0/bas.h5%20Reference%20Guide.pdf">h5</a>) files from the sequencing. These files contain the base information e.g. quality of collected reads. If the sequenced sample is a mixed community, i.e. metagenomic sequencing, . There are plenty of strategies e.g. Amplicon/Shotgun sequencing to utilize these reads.</p>
 <ul>
 <li>Feature table (Necessary), a matrix containing the abundances of detected microbial features(OTUs, ASVs, microbial markers)</li>

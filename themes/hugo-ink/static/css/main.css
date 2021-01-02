@@ -8,6 +8,25 @@ body {
     font-size: 17px;
 }
 
+/* code */
+pre {
+  border: 1px solid #ddd;
+  box-shadow: 5px 5px 5px #eee;
+  padding: 1em;
+  overflow-x: auto;
+}
+code { background: #f9f9f9; }
+pre code { background: none; }
+
+/* misc elements */
+img, iframe, video { max-width: 100%; }
+main { hyphens: auto; }
+blockquote {
+  background: #f9f9f9;
+  border-left: 5px solid #ccc;
+  padding: 3px 1em 3px;
+}
+
 a {
     color: #3700ff;
     text-decoration: none;
@@ -64,9 +83,6 @@ fieldset {
 }
 
 table {
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  -webkit-overflow-scrolling: touch;
-  background-color: transparent;
   margin-bottom: 1rem;
   overflow-x: auto;
   width: 100%;
@@ -80,12 +96,12 @@ table td {
 }
 
 table thead th {
-  border-bottom: 2px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
   vertical-align: bottom;
 }
 
 table tbody + tbody {
-  border-top: 2px solid #dee2e6;
+  border-top: 1px solid #dee2e6;
 }
 
 table tbody tr:nth-of-type(even) {
@@ -93,9 +109,9 @@ table tbody tr:nth-of-type(even) {
 }
 
 table th {
-  background-color: #212529;
+  background-color: #fff;
   border-color: #32383e;
-  color: #fff;
+  color: #212529;
 }
 
 textarea {

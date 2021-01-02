@@ -8,6 +8,10 @@ tags:
 slug: Microbiome-R
 draft: no
 description: Introduction to microbiome analysis.
+output:
+   blogdown::html_page:
+     toc: true
+
 ---
 
 ```{r startup, include = FALSE}
@@ -19,6 +23,22 @@ install_package <- function(p) {
   }
 }
 invisible(lapply(p, install_package))
+
+# xaringanExtra
+  if (!requireNamespace("xaringanExtra", quietly = TRUE)) {
+    devtools::install_github("gadenbuie/xaringanExtra", upgrade = "never")
+  }
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
 ```
 
 **BEFORE YOU START:** This is a *minimal tutorial* to visualize microbiome result with R. The tutorial starts from the processed output from metagenomic sequencing, e.g. feature matrix. It's suitable for someone who wants to try a hand-on analysis, especially for **R users**, helping you understand the basic concepts of microbiome outputs. This tutorial will only give inspirations for some common analysis (alpha/beta diversity, differential abundance analysis)， but it shall be adequate if you only consider microbiome as a sub-story.
@@ -26,7 +46,7 @@ invisible(lapply(p, install_package))
 - The demo data-set comes from the [QIIME 2](https://qiime2.org/) tutorial - [Moving Pictures](https://docs.qiime2.org/2020.11/tutorials/moving-pictures/).
 - This is a **beginner tutorial**. You still have time to run away if you're an experienced bioinformatician. `r emo::ji("ghost")`
  
-## WHAT WILL YOU WORK ON
+## What will you work on
  After sequencing, you will get some ([fastq](https://en.wikipedia.org/wiki/FASTQ_format)/[fast5](https://nanoporetech.com/nanopore-sequencing-data-analysis)/[h5](http://files.pacb.com/software/instrument/2.0.0/bas.h5%20Reference%20Guide.pdf)) files from the sequencing. These files contain the base information e.g. quality of collected reads. If the sequenced sample is a mixed community, i.e. metagenomic sequencing,  . There are plenty of strategies e.g. Amplicon/Shotgun sequencing to utilize these reads.
  
 - Feature table (Necessary), a matrix containing the abundances of detected microbial features(OTUs, ASVs, microbial markers) 
