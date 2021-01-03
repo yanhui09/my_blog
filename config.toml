@@ -20,7 +20,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
 [params]
 	subtitle = "Be true, be wild and be happy"
 	author = "Yan Hui"
-	description = "Yan's personal website."
 	favicon = "https://icons.iconarchive.com/icons/iconka/meow/64/cat-clean-icon.png"
 	
   highlightjsVersion = "10.5.0"
