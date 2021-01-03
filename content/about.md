@@ -10,7 +10,7 @@ My name is Yan Hui. I will soon finish my PhD study at University of Copenhagen 
 Data visualization, Clound computing, New technologies
 
 ## Contact me
-You can find me at [Github](https://github.com/yanhui09), where I spend most of my time. Email: huiyan@food.ku.dk
+You can find me at [Github](https://github.com/yanhui09), where I spend most of my time. Email: me@yanh.org
 
 ## More about me 
 ### Education
