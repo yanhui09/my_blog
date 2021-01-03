@@ -517,7 +517,9 @@ ann_colors = list(
     `Body site` = c(`gut` = "purple", tongue = "yellow"),
     Phylum = phylum_col
 )
-ComplexHeatmap::pheatmap(matrix, scale= "row", annotation_col = annotation_col, annotation_row = annotation_row, 
+ComplexHeatmap::pheatmap(matrix, scale= "row", 
+                         annotation_col = annotation_col, 
+                         annotation_row = annotation_row, 
                          annotation_colors = ann_colors)
 ```
 
