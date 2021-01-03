@@ -14,10 +14,11 @@ pre {
   box-shadow: 5px 5px 5px #eee;
   padding: 1em;
   overflow-x: auto;
-  width: 850px;
 }
 code { background: #f9f9f9; }
-pre code { background: none; }
+pre code { 
+  background: none;
+}
 
 /* misc elements */
 img, iframe, video { max-width: 100%; }
