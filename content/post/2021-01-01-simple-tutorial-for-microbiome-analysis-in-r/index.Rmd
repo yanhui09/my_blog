@@ -48,7 +48,7 @@ htmltools::tagList(
 - The demo data-set comes from the [QIIME 2](https://qiime2.org/) tutorial - [Moving Pictures](https://docs.qiime2.org/2020.11/tutorials/moving-pictures/).
 - This is a **beginner tutorial**. You still have time to run away if you're an experienced bioinformatician. `r emo::ji("ghost")`
  
-## What will you work on
+## What you will work on
  After sequencing, you will get some ([fastq](https://en.wikipedia.org/wiki/FASTQ_format)/[fast5](https://nanoporetech.com/nanopore-sequencing-data-analysis)/[h5](http://files.pacb.com/software/instrument/2.0.0/bas.h5%20Reference%20Guide.pdf)) files from the sequencing. These files contain the base information e.g. quality of collected reads. If the sequenced sample is a mixed community, i.e. metagenomic sequencing,  . There are plenty of strategies e.g. Amplicon/Shotgun sequencing to utilize these reads.
  
 - Feature table (Necessary), a matrix containing the abundances of detected microbial features(OTUs, ASVs, microbial markers) 
