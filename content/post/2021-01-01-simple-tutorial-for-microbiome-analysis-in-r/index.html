@@ -153,66 +153,69 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-2"><a href="#cb4-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;phyloseq&quot;</span>, <span class="st">&quot;ANCOMBC&quot;</span>, <span class="st">&quot;DESeq2&quot;</span>, <span class="st">&quot;ComplexHeatmap&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3"></a>load_package &lt;-<span class="st"> </span><span class="cf">function</span>(p) {</span>
 <span id="cb4-4"><a href="#cb4-4"></a>  <span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(p, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    <span class="kw">ifelse</span>(p <span class="op">%in%</span><span class="st"> </span>p1, <span class="kw">install.packages</span>(p, <span class="dt">repos =</span> <span class="st">&quot;http://cran.us.r-project.org/&quot;</span>), BiocManager<span class="op">::</span><span class="kw">install</span>(p))</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  }</span>
-<span id="cb4-7"><a href="#cb4-7"></a>  <span class="kw">library</span>(p, <span class="dt">character.only =</span> <span class="ot">TRUE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb4-8"><a href="#cb4-8"></a>}</span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="kw">invisible</span>(<span class="kw">lapply</span>(<span class="kw">c</span>(p1,p2), load_package))</span></code></pre></div>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="kw">ifelse</span>(p <span class="op">%in%</span><span class="st"> </span>p1, </span>
+<span id="cb4-6"><a href="#cb4-6"></a>           <span class="kw">install.packages</span>(p, <span class="dt">repos =</span> <span class="st">&quot;http://cran.us.r-project.org/&quot;</span>), </span>
+<span id="cb4-7"><a href="#cb4-7"></a>           BiocManager<span class="op">::</span><span class="kw">install</span>(p))</span>
+<span id="cb4-8"><a href="#cb4-8"></a>  }</span>
+<span id="cb4-9"><a href="#cb4-9"></a>  <span class="kw">library</span>(p, <span class="dt">character.only =</span> <span class="ot">TRUE</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-10"><a href="#cb4-10"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="kw">invisible</span>(<span class="kw">lapply</span>(<span class="kw">c</span>(p1,p2), load_package))</span></code></pre></div>
 </div>
 <div id="build-phyloseq-project" class="section level2">
 <h2>Build phyloseq project</h2>
 <p>Load data to build a phyloseq project, phyloseq description is <a href="https://joey711.github.io/phyloseq/import-data.html">here</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>otu &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;feature-table.tsv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header =</span> T, <span class="dt">row.names =</span> <span class="dv">1</span>, <span class="dt">skip =</span> <span class="dv">1</span>, <span class="dt">comment.char =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>taxonomy &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;taxonomy.tsv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header =</span> T ,<span class="dt">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># clean the taxonomy, Greengenes format</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>tax &lt;-<span class="st"> </span>taxonomy <span class="op">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">select</span>(Taxon) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="st">  </span><span class="kw">separate</span>(Taxon, <span class="kw">c</span>(<span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>), <span class="st">&quot;; &quot;</span>)</span>
-<span id="cb5-8"><a href="#cb5-8"></a></span>
-<span id="cb5-9"><a href="#cb5-9"></a>tax.clean &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">row.names =</span> <span class="kw">row.names</span>(tax),</span>
-<span id="cb5-10"><a href="#cb5-10"></a>                        <span class="dt">Kingdom =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">1</span>], <span class="st">&quot;k__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
-<span id="cb5-11"><a href="#cb5-11"></a>                        <span class="dt">Phylum =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">2</span>], <span class="st">&quot;p__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
-<span id="cb5-12"><a href="#cb5-12"></a>                        <span class="dt">Class =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">3</span>], <span class="st">&quot;c__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
-<span id="cb5-13"><a href="#cb5-13"></a>                        <span class="dt">Order =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">4</span>], <span class="st">&quot;o__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
-<span id="cb5-14"><a href="#cb5-14"></a>                        <span class="dt">Family =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">5</span>], <span class="st">&quot;f__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
-<span id="cb5-15"><a href="#cb5-15"></a>                        <span class="dt">Genus =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">6</span>], <span class="st">&quot;g__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
-<span id="cb5-16"><a href="#cb5-16"></a>                        <span class="dt">Species =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">7</span>], <span class="st">&quot;s__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
-<span id="cb5-17"><a href="#cb5-17"></a>                        <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb5-18"><a href="#cb5-18"></a></span>
-<span id="cb5-19"><a href="#cb5-19"></a>tax.clean[<span class="kw">is.na</span>(tax.clean)] &lt;-<span class="st"> &quot;&quot;</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a>tax.clean[tax.clean<span class="op">==</span><span class="st">&quot;__&quot;</span>] &lt;-<span class="st"> &quot;&quot;</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a></span>
-<span id="cb5-22"><a href="#cb5-22"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(tax.clean)){</span>
-<span id="cb5-23"><a href="#cb5-23"></a>  <span class="cf">if</span> (tax.clean[i,<span class="dv">7</span>] <span class="op">!=</span><span class="st"> &quot;&quot;</span>){</span>
-<span id="cb5-24"><a href="#cb5-24"></a>    tax.clean<span class="op">$</span>Species[i] &lt;-<span class="st"> </span><span class="kw">paste</span>(tax.clean<span class="op">$</span>Genus[i], tax.clean<span class="op">$</span>Species[i], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb5-25"><a href="#cb5-25"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">2</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
-<span id="cb5-26"><a href="#cb5-26"></a>    kingdom &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">1</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb5-27"><a href="#cb5-27"></a>    tax.clean[i, <span class="dv">2</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>kingdom</span>
-<span id="cb5-28"><a href="#cb5-28"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">3</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
-<span id="cb5-29"><a href="#cb5-29"></a>    phylum &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">2</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb5-30"><a href="#cb5-30"></a>    tax.clean[i, <span class="dv">3</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>phylum</span>
-<span id="cb5-31"><a href="#cb5-31"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">4</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
-<span id="cb5-32"><a href="#cb5-32"></a>    class &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">3</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb5-33"><a href="#cb5-33"></a>    tax.clean[i, <span class="dv">4</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>class</span>
-<span id="cb5-34"><a href="#cb5-34"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">5</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
-<span id="cb5-35"><a href="#cb5-35"></a>    order &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">4</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb5-36"><a href="#cb5-36"></a>    tax.clean[i, <span class="dv">5</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>order</span>
-<span id="cb5-37"><a href="#cb5-37"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">6</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
-<span id="cb5-38"><a href="#cb5-38"></a>    family &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">5</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb5-39"><a href="#cb5-39"></a>    tax.clean[i, <span class="dv">6</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>family</span>
-<span id="cb5-40"><a href="#cb5-40"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">7</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
-<span id="cb5-41"><a href="#cb5-41"></a>    tax.clean<span class="op">$</span>Species[i] &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified &quot;</span>,tax.clean<span class="op">$</span>Genus[i], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb5-42"><a href="#cb5-42"></a>  }</span>
-<span id="cb5-43"><a href="#cb5-43"></a>}</span>
-<span id="cb5-44"><a href="#cb5-44"></a></span>
-<span id="cb5-45"><a href="#cb5-45"></a>metadata &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;sample-metadata.tsv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header =</span> T, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb5-46"><a href="#cb5-46"></a>OTU =<span class="st"> </span><span class="kw">otu_table</span>(<span class="kw">as.matrix</span>(otu), <span class="dt">taxa_are_rows =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb5-47"><a href="#cb5-47"></a>TAX =<span class="st"> </span><span class="kw">tax_table</span>(<span class="kw">as.matrix</span>(tax.clean))</span>
-<span id="cb5-48"><a href="#cb5-48"></a>SAMPLE &lt;-<span class="st"> </span><span class="kw">sample_data</span>(metadata)</span>
-<span id="cb5-49"><a href="#cb5-49"></a>TREE =<span class="st"> </span><span class="kw">read_tree</span>(<span class="st">&quot;tree.nwk&quot;</span>)</span>
-<span id="cb5-50"><a href="#cb5-50"></a><span class="co"># merge the data</span></span>
-<span id="cb5-51"><a href="#cb5-51"></a>ps &lt;-<span class="st"> </span><span class="kw">phyloseq</span>(OTU, TAX, SAMPLE,TREE)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>otu &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;feature-table.tsv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header =</span> T, <span class="dt">row.names =</span> <span class="dv">1</span>, </span>
+<span id="cb5-2"><a href="#cb5-2"></a>                  <span class="dt">skip =</span> <span class="dv">1</span>, <span class="dt">comment.char =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>taxonomy &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;taxonomy.tsv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header =</span> T ,<span class="dt">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co"># clean the taxonomy, Greengenes format</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>tax &lt;-<span class="st"> </span>taxonomy <span class="op">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="st">  </span><span class="kw">select</span>(Taxon) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="st">  </span><span class="kw">separate</span>(Taxon, <span class="kw">c</span>(<span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>), <span class="st">&quot;; &quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9"></a></span>
+<span id="cb5-10"><a href="#cb5-10"></a>tax.clean &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">row.names =</span> <span class="kw">row.names</span>(tax),</span>
+<span id="cb5-11"><a href="#cb5-11"></a>                        <span class="dt">Kingdom =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">1</span>], <span class="st">&quot;k__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb5-12"><a href="#cb5-12"></a>                        <span class="dt">Phylum =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">2</span>], <span class="st">&quot;p__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb5-13"><a href="#cb5-13"></a>                        <span class="dt">Class =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">3</span>], <span class="st">&quot;c__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb5-14"><a href="#cb5-14"></a>                        <span class="dt">Order =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">4</span>], <span class="st">&quot;o__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb5-15"><a href="#cb5-15"></a>                        <span class="dt">Family =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">5</span>], <span class="st">&quot;f__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb5-16"><a href="#cb5-16"></a>                        <span class="dt">Genus =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">6</span>], <span class="st">&quot;g__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb5-17"><a href="#cb5-17"></a>                        <span class="dt">Species =</span> <span class="kw">str_replace</span>(tax[,<span class="dv">7</span>], <span class="st">&quot;s__&quot;</span>,<span class="st">&quot;&quot;</span>),</span>
+<span id="cb5-18"><a href="#cb5-18"></a>                        <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb5-19"><a href="#cb5-19"></a></span>
+<span id="cb5-20"><a href="#cb5-20"></a>tax.clean[<span class="kw">is.na</span>(tax.clean)] &lt;-<span class="st"> &quot;&quot;</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>tax.clean[tax.clean<span class="op">==</span><span class="st">&quot;__&quot;</span>] &lt;-<span class="st"> &quot;&quot;</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a></span>
+<span id="cb5-23"><a href="#cb5-23"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(tax.clean)){</span>
+<span id="cb5-24"><a href="#cb5-24"></a>  <span class="cf">if</span> (tax.clean[i,<span class="dv">7</span>] <span class="op">!=</span><span class="st"> &quot;&quot;</span>){</span>
+<span id="cb5-25"><a href="#cb5-25"></a>    tax.clean<span class="op">$</span>Species[i] &lt;-<span class="st"> </span><span class="kw">paste</span>(tax.clean<span class="op">$</span>Genus[i], tax.clean<span class="op">$</span>Species[i], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-26"><a href="#cb5-26"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">2</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
+<span id="cb5-27"><a href="#cb5-27"></a>    kingdom &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">1</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-28"><a href="#cb5-28"></a>    tax.clean[i, <span class="dv">2</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>kingdom</span>
+<span id="cb5-29"><a href="#cb5-29"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">3</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
+<span id="cb5-30"><a href="#cb5-30"></a>    phylum &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">2</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-31"><a href="#cb5-31"></a>    tax.clean[i, <span class="dv">3</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>phylum</span>
+<span id="cb5-32"><a href="#cb5-32"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">4</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
+<span id="cb5-33"><a href="#cb5-33"></a>    class &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">3</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-34"><a href="#cb5-34"></a>    tax.clean[i, <span class="dv">4</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>class</span>
+<span id="cb5-35"><a href="#cb5-35"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">5</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
+<span id="cb5-36"><a href="#cb5-36"></a>    order &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">4</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-37"><a href="#cb5-37"></a>    tax.clean[i, <span class="dv">5</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>order</span>
+<span id="cb5-38"><a href="#cb5-38"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">6</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
+<span id="cb5-39"><a href="#cb5-39"></a>    family &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified&quot;</span>, tax.clean[i,<span class="dv">5</span>], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-40"><a href="#cb5-40"></a>    tax.clean[i, <span class="dv">6</span><span class="op">:</span><span class="dv">7</span>] &lt;-<span class="st"> </span>family</span>
+<span id="cb5-41"><a href="#cb5-41"></a>  } <span class="cf">else</span> <span class="cf">if</span> (tax.clean[i,<span class="dv">7</span>] <span class="op">==</span><span class="st"> &quot;&quot;</span>){</span>
+<span id="cb5-42"><a href="#cb5-42"></a>    tax.clean<span class="op">$</span>Species[i] &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Unclassified &quot;</span>,tax.clean<span class="op">$</span>Genus[i], <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-43"><a href="#cb5-43"></a>  }</span>
+<span id="cb5-44"><a href="#cb5-44"></a>}</span>
+<span id="cb5-45"><a href="#cb5-45"></a></span>
+<span id="cb5-46"><a href="#cb5-46"></a>metadata &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="st">&quot;sample-metadata.tsv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">header =</span> T, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb5-47"><a href="#cb5-47"></a>OTU =<span class="st"> </span><span class="kw">otu_table</span>(<span class="kw">as.matrix</span>(otu), <span class="dt">taxa_are_rows =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb5-48"><a href="#cb5-48"></a>TAX =<span class="st"> </span><span class="kw">tax_table</span>(<span class="kw">as.matrix</span>(tax.clean))</span>
+<span id="cb5-49"><a href="#cb5-49"></a>SAMPLE &lt;-<span class="st"> </span><span class="kw">sample_data</span>(metadata)</span>
+<span id="cb5-50"><a href="#cb5-50"></a>TREE =<span class="st"> </span><span class="kw">read_tree</span>(<span class="st">&quot;tree.nwk&quot;</span>)</span>
+<span id="cb5-51"><a href="#cb5-51"></a><span class="co"># merge the data</span></span>
+<span id="cb5-52"><a href="#cb5-52"></a>ps &lt;-<span class="st"> </span><span class="kw">phyloseq</span>(OTU, TAX, SAMPLE,TREE)</span></code></pre></div>
 <p>The phyloseq project looks like</p>
 <pre><code>## phyloseq-class experiment-level object
 ## otu_table()   OTU Table:         [ 770 taxa and 34 samples ]
@@ -245,23 +248,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="index_files/figure-html/alpha_diversity-1.png" width="768" /></p>
 <p>We could see tongue samples had the lowest alpha diversity. Next, some statistics: pairwise test with Wilcoxon rank-sum test, with fdr correction. For the number of observed tags,</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>rich =<span class="st"> </span><span class="kw">estimate_richness</span>(ps.rarefied, <span class="dt">measures =</span> <span class="kw">c</span>(<span class="st">&quot;Observed&quot;</span>, <span class="st">&quot;Shannon&quot;</span>))</span>
-<span id="cb10-2"><a href="#cb10-2"></a>wilcox.observed &lt;-<span class="st"> </span><span class="kw">pairwise.wilcox.test</span>(rich<span class="op">$</span>Observed, <span class="kw">sample_data</span>(ps.rarefied)<span class="op">$</span>body.site, <span class="dt">p.adjust.method =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb10-3"><a href="#cb10-3"></a>tab.observed &lt;-<span class="st"> </span>wilcox.observed<span class="op">$</span>p.value <span class="op">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;group1&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="st">  </span><span class="kw">gather</span>(<span class="dt">key=</span><span class="st">&quot;group2&quot;</span>, <span class="dt">value=</span><span class="st">&quot;p.adj&quot;</span>, <span class="op">-</span>group1) <span class="op">%&gt;%</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="st">  </span><span class="kw">na.omit</span>()</span>
-<span id="cb10-8"><a href="#cb10-8"></a>tab.observed</span></code></pre></div>
+<span id="cb10-2"><a href="#cb10-2"></a>wilcox.observed &lt;-<span class="st"> </span><span class="kw">pairwise.wilcox.test</span>(rich<span class="op">$</span>Observed, </span>
+<span id="cb10-3"><a href="#cb10-3"></a>                                        <span class="kw">sample_data</span>(ps.rarefied)<span class="op">$</span>body.site, </span>
+<span id="cb10-4"><a href="#cb10-4"></a>                                        <span class="dt">p.adjust.method =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>tab.observed &lt;-<span class="st"> </span>wilcox.observed<span class="op">$</span>p.value <span class="op">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="st">  </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;group1&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="st">  </span><span class="kw">gather</span>(<span class="dt">key=</span><span class="st">&quot;group2&quot;</span>, <span class="dt">value=</span><span class="st">&quot;p.adj&quot;</span>, <span class="op">-</span>group1) <span class="op">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="st">  </span><span class="kw">na.omit</span>()</span>
+<span id="cb10-10"><a href="#cb10-10"></a>tab.observed</span></code></pre></div>
 <div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","data":[["left palm","right palm","tongue","right palm","tongue","tongue"],["gut","gut","gut","left palm","left palm","right palm"],[0.309861519622914,1,0.0026441634012951,1,0.0026441634012951,0.0157960566577091]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>group1<\/th>\n      <th>group2<\/th>\n      <th>p.adj<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>Similarly for Shannon diversity,</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>wilcox.shannon &lt;-<span class="st"> </span><span class="kw">pairwise.wilcox.test</span>(rich<span class="op">$</span>Shannon, <span class="kw">sample_data</span>(ps.rarefied)<span class="op">$</span>body.site, <span class="dt">p.adjust.method =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>tab.shannon &lt;-<span class="st"> </span>wilcox.shannon<span class="op">$</span>p.value <span class="op">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;group1&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="kw">gather</span>(<span class="dt">key=</span><span class="st">&quot;group2&quot;</span>, <span class="dt">value=</span><span class="st">&quot;p.adj&quot;</span>, <span class="op">-</span>group1) <span class="op">%&gt;%</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="st">  </span><span class="kw">na.omit</span>()</span>
-<span id="cb11-7"><a href="#cb11-7"></a>tab.shannon</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>wilcox.shannon &lt;-<span class="st"> </span><span class="kw">pairwise.wilcox.test</span>(rich<span class="op">$</span>Shannon, </span>
+<span id="cb11-2"><a href="#cb11-2"></a>                                       <span class="kw">sample_data</span>(ps.rarefied)<span class="op">$</span>body.site, </span>
+<span id="cb11-3"><a href="#cb11-3"></a>                                       <span class="dt">p.adjust.method =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>tab.shannon &lt;-<span class="st"> </span>wilcox.shannon<span class="op">$</span>p.value <span class="op">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="st">  </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(<span class="dt">var =</span> <span class="st">&quot;group1&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="st">  </span><span class="kw">gather</span>(<span class="dt">key=</span><span class="st">&quot;group2&quot;</span>, <span class="dt">value=</span><span class="st">&quot;p.adj&quot;</span>, <span class="op">-</span>group1) <span class="op">%&gt;%</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="st">  </span><span class="kw">na.omit</span>()</span>
+<span id="cb11-9"><a href="#cb11-9"></a>tab.shannon</span></code></pre></div>
 <div id="htmlwidget-2" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-2">{"x":{"filter":"none","data":[["left palm","right palm","tongue","right palm","tongue","tongue"],["gut","gut","gut","left palm","left palm","right palm"],[0.0748251748251748,0.17022977022977,0.0719045660222131,0.851814851814852,0.000987248046071575,0.00839160839160839]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>group1<\/th>\n      <th>group2<\/th>\n      <th>p.adj<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
@@ -294,13 +301,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-4"><a href="#cb14-4"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cbn)){</span>
 <span id="cb14-5"><a href="#cb14-5"></a>ps.subs &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(ps.rarefied, body.site <span class="op">%in%</span><span class="st"> </span>cbn[,i])</span>
 <span id="cb14-6"><a href="#cb14-6"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.subs))</span>
-<span id="cb14-7"><a href="#cb14-7"></a>permanova_pairwise &lt;-<span class="st"> </span><span class="kw">adonis</span>(phyloseq<span class="op">::</span><span class="kw">distance</span>(ps.subs, <span class="dt">method =</span> <span class="st">&quot;bray&quot;</span>) <span class="op">~</span><span class="st"> </span>body.site, <span class="dt">data =</span> metadata_sub)</span>
-<span id="cb14-8"><a href="#cb14-8"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(p, permanova_pairwise<span class="op">$</span>aov.tab<span class="op">$</span><span class="st">`</span><span class="dt">Pr(&gt;F)</span><span class="st">`</span>[<span class="dv">1</span>])</span>
-<span id="cb14-9"><a href="#cb14-9"></a>}</span>
-<span id="cb14-10"><a href="#cb14-10"></a></span>
-<span id="cb14-11"><a href="#cb14-11"></a>p.adj &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(p, <span class="dt">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb14-12"><a href="#cb14-12"></a>p.table &lt;-<span class="st"> </span><span class="kw">cbind.data.frame</span>(<span class="kw">t</span>(cbn), <span class="dt">p=</span>p, <span class="dt">p.adj=</span>p.adj)</span>
-<span id="cb14-13"><a href="#cb14-13"></a>p.table</span></code></pre></div>
+<span id="cb14-7"><a href="#cb14-7"></a>permanova_pairwise &lt;-<span class="st"> </span><span class="kw">adonis</span>(phyloseq<span class="op">::</span><span class="kw">distance</span>(ps.subs, <span class="dt">method =</span> <span class="st">&quot;bray&quot;</span>) <span class="op">~</span><span class="st"> </span>body.site, </span>
+<span id="cb14-8"><a href="#cb14-8"></a>                             <span class="dt">data =</span> metadata_sub)</span>
+<span id="cb14-9"><a href="#cb14-9"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(p, permanova_pairwise<span class="op">$</span>aov.tab<span class="op">$</span><span class="st">`</span><span class="dt">Pr(&gt;F)</span><span class="st">`</span>[<span class="dv">1</span>])</span>
+<span id="cb14-10"><a href="#cb14-10"></a>}</span>
+<span id="cb14-11"><a href="#cb14-11"></a></span>
+<span id="cb14-12"><a href="#cb14-12"></a>p.adj &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(p, <span class="dt">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb14-13"><a href="#cb14-13"></a>p.table &lt;-<span class="st"> </span><span class="kw">cbind.data.frame</span>(<span class="kw">t</span>(cbn), <span class="dt">p=</span>p, <span class="dt">p.adj=</span>p.adj)</span>
+<span id="cb14-14"><a href="#cb14-14"></a>p.table</span></code></pre></div>
 <div id="htmlwidget-4" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-4">{"x":{"filter":"none","data":[["gut","gut","gut","left palm","left palm","right palm"],["left palm","right palm","tongue","right palm","tongue","tongue"],[0.001,0.003,0.001,0.942,0.001,0.002],[0.002,0.0036,0.002,0.942,0.002,0.003]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>1<\/th>\n      <th>2<\/th>\n      <th>p<\/th>\n      <th>p.adj<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>As we could see, there’s no difference in composition between the left and right palm samples. Similar result can be found using binary Jaccard metrics. Adjust the <code>dist = distance(ps.rarefied, method="jaccard", binary = TRUE)</code> and <code>permanova_pairwise &lt;- adonis(distance(ps.subs, method="jaccard", binary = TRUE) ~ body.site, data = metadata_sub)</code>, give it a try</p>
@@ -337,12 +345,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb19-4"><a href="#cb19-4"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cbn)){</span>
 <span id="cb19-5"><a href="#cb19-5"></a>ps.subs &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(ps.rarefied, body.site <span class="op">%in%</span><span class="st"> </span>cbn[,i])</span>
 <span id="cb19-6"><a href="#cb19-6"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.subs))</span>
-<span id="cb19-7"><a href="#cb19-7"></a>permanova_pairwise &lt;-<span class="st"> </span><span class="kw">anosim</span>(phyloseq<span class="op">::</span><span class="kw">distance</span>(ps.subs, <span class="dt">method=</span><span class="st">&quot;jaccard&quot;</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>), metadata_sub<span class="op">$</span>body.site)</span>
-<span id="cb19-8"><a href="#cb19-8"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(p, permanova_pairwise<span class="op">$</span>signif[<span class="dv">1</span>])</span>
-<span id="cb19-9"><a href="#cb19-9"></a>}</span>
-<span id="cb19-10"><a href="#cb19-10"></a></span>
-<span id="cb19-11"><a href="#cb19-11"></a>p.adj &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(p, <span class="dt">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb19-12"><a href="#cb19-12"></a>p.table &lt;-<span class="st"> </span><span class="kw">cbind.data.frame</span>(<span class="kw">t</span>(cbn), <span class="dt">p=</span>p, <span class="dt">p.adj=</span>p.adj)</span></code></pre></div>
+<span id="cb19-7"><a href="#cb19-7"></a>permanova_pairwise &lt;-<span class="st"> </span><span class="kw">anosim</span>(phyloseq<span class="op">::</span><span class="kw">distance</span>(ps.subs, <span class="dt">method=</span><span class="st">&quot;jaccard&quot;</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb19-8"><a href="#cb19-8"></a>                             metadata_sub<span class="op">$</span>body.site)</span>
+<span id="cb19-9"><a href="#cb19-9"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(p, permanova_pairwise<span class="op">$</span>signif[<span class="dv">1</span>])</span>
+<span id="cb19-10"><a href="#cb19-10"></a>}</span>
+<span id="cb19-11"><a href="#cb19-11"></a></span>
+<span id="cb19-12"><a href="#cb19-12"></a>p.adj &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(p, <span class="dt">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb19-13"><a href="#cb19-13"></a>p.table &lt;-<span class="st"> </span><span class="kw">cbind.data.frame</span>(<span class="kw">t</span>(cbn), <span class="dt">p=</span>p, <span class="dt">p.adj=</span>p.adj)</span></code></pre></div>
 <div id="htmlwidget-5" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-5">{"x":{"filter":"none","data":[["gut","gut","gut","left palm","left palm","right palm"],["left palm","right palm","tongue","right palm","tongue","tongue"],[0.001,0.001,0.001,0.765,0.001,0.001],[0.0012,0.0012,0.0012,0.765,0.0012,0.0012]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>1<\/th>\n      <th>2<\/th>\n      <th>p<\/th>\n      <th>p.adj<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>The NMDS and ANOSIM result were similar to that from PCoA and ADONIS.</p>
@@ -416,7 +425,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="differential-abundance-analysis" class="section level2">
 <h2>Differential abundance analysis</h2>
 <p>Differential abundance analysis allows you to identify differentially abundant taxa between groups. There’s many methods, here two commonly used ones are given as examples. Features are collapsed at the species-level prior to the calculation.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">sample_data</span>(ps)<span class="op">$</span>body.site &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">sample_data</span>(ps)<span class="op">$</span>body.site) <span class="co"># change to factor for DESeq2</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">sample_data</span>(ps)<span class="op">$</span>body.site &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">sample_data</span>(ps)<span class="op">$</span>body.site) <span class="co"># factorize for DESeq2</span></span>
 <span id="cb22-2"><a href="#cb22-2"></a>ps.taxa &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(ps, <span class="dt">taxrank =</span> <span class="st">&#39;Species&#39;</span>, <span class="dt">NArm =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p>Let’s see what features are enriched differentially between tongue and gut.</p>
 <div id="deseq2" class="section level3">
@@ -431,7 +440,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb23-7"><a href="#cb23-7"></a>alpha =<span class="st"> </span><span class="fl">0.05</span> </span>
 <span id="cb23-8"><a href="#cb23-8"></a>res =<span class="st"> </span><span class="kw">results</span>(ds, <span class="dt">alpha=</span>alpha)</span>
 <span id="cb23-9"><a href="#cb23-9"></a>res =<span class="st"> </span>res[<span class="kw">order</span>(res<span class="op">$</span>padj, <span class="dt">na.last=</span><span class="ot">NA</span>), ]</span>
-<span id="cb23-10"><a href="#cb23-10"></a>taxa_sig =<span class="st"> </span><span class="kw">rownames</span>(res[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]) <span class="co"># sort by the padj, and select bottom 20 with lowest p.adj values</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>taxa_sig =<span class="st"> </span><span class="kw">rownames</span>(res[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]) <span class="co"># select bottom 20 with lowest p.adj values</span></span>
 <span id="cb23-11"><a href="#cb23-11"></a>ps.taxa.rel &lt;-<span class="st"> </span><span class="kw">transform_sample_counts</span>(ps, <span class="cf">function</span>(x) x<span class="op">/</span><span class="kw">sum</span>(x)<span class="op">*</span><span class="dv">100</span>)</span>
 <span id="cb23-12"><a href="#cb23-12"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(taxa_sig, ps.taxa.rel)</span>
 <span id="cb23-13"><a href="#cb23-13"></a><span class="co"># Only keep gut and tongue samples</span></span>
@@ -439,7 +448,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Visualize these biomarkers in heatmap using R package <a href="https://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html">ComplexHeatmap</a>, which is a improved package on the basis of pheatmap. A detailed reference book about ComplexHeatmap is <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/">here</a>. I like it because of its flexibility relative to built-in heatmap(), gplots::heatmap.2(), pheatmap::pheatmap() and heatmap3::heatmap(). However, the mentioned ones can also be adopted given the same theory of heatmap. The added function <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/integrate-with-other-packages.html#pheatmap">ComplexHeatmap::pheatmap</a> inherited most settings of pheatmap, so I adopt it to make code easily understood.</p>
 <p>To make <code>pheatmap</code> specfic, the package is specified as ComplexHeatmap::pheatmap</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">data.frame</span>(<span class="kw">otu_table</span>(ps.taxa.rel.sig)))</span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="kw">rownames</span>(matrix) &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Species&quot;</span>]) <span class="co"># use species name as rownames</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="kw">rownames</span>(matrix) &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Species&quot;</span>])</span>
 <span id="cb24-3"><a href="#cb24-3"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.taxa.rel.sig))</span>
 <span id="cb24-4"><a href="#cb24-4"></a><span class="co"># Define the annotation color for columns and rows</span></span>
 <span id="cb24-5"><a href="#cb24-5"></a>annotation_col =<span class="st"> </span><span class="kw">data.frame</span>(</span>
@@ -463,8 +472,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb24-23"><a href="#cb24-23"></a>    <span class="dt">Phylum =</span> phylum_col</span>
 <span id="cb24-24"><a href="#cb24-24"></a>)</span>
 <span id="cb24-25"><a href="#cb24-25"></a></span>
-<span id="cb24-26"><a href="#cb24-26"></a>ComplexHeatmap<span class="op">::</span><span class="kw">pheatmap</span>(matrix, <span class="dt">scale=</span> <span class="st">&quot;row&quot;</span>, <span class="dt">annotation_col =</span> annotation_col, <span class="dt">annotation_row =</span> annotation_row, </span>
-<span id="cb24-27"><a href="#cb24-27"></a>                         <span class="dt">annotation_colors =</span> ann_colors)</span></code></pre></div>
+<span id="cb24-26"><a href="#cb24-26"></a>ComplexHeatmap<span class="op">::</span><span class="kw">pheatmap</span>(matrix, <span class="dt">scale=</span> <span class="st">&quot;row&quot;</span>, </span>
+<span id="cb24-27"><a href="#cb24-27"></a>                         <span class="dt">annotation_col =</span> annotation_col, </span>
+<span id="cb24-28"><a href="#cb24-28"></a>                         <span class="dt">annotation_row =</span> annotation_row, </span>
+<span id="cb24-29"><a href="#cb24-29"></a>                         <span class="dt">annotation_colors =</span> ann_colors)</span></code></pre></div>
 <p><img src="index_files/figure-html/deseq2-1.png" width="768" /></p>
 </div>
 <div id="ancom-bc" class="section level3">
@@ -479,15 +490,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb25-6"><a href="#cb25-6"></a>              <span class="dt">group =</span> <span class="st">&quot;body.site&quot;</span>, <span class="dt">struc_zero =</span> <span class="ot">TRUE</span>, <span class="dt">neg_lb =</span> <span class="ot">TRUE</span>, <span class="dt">tol =</span> <span class="fl">1e-5</span>, </span>
 <span id="cb25-7"><a href="#cb25-7"></a>              <span class="dt">max_iter =</span> <span class="dv">100</span>, <span class="dt">conserve =</span> <span class="ot">TRUE</span>, <span class="dt">alpha =</span> <span class="fl">0.05</span>, <span class="dt">global =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb25-8"><a href="#cb25-8"></a>res &lt;-<span class="st"> </span>out<span class="op">$</span>res</span>
-<span id="cb25-9"><a href="#cb25-9"></a><span class="co"># we take out the selected markers from &quot;body.sitetongue&quot; and select the bottom 20 with lowest p values</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="co"># select the bottom 20 with lowest p values</span></span>
 <span id="cb25-10"><a href="#cb25-10"></a>res.or_p &lt;-<span class="st"> </span><span class="kw">rownames</span>(res<span class="op">$</span>q_val[,<span class="st">&quot;body.sitetongue&quot;</span>])[base<span class="op">::</span><span class="kw">order</span>(res<span class="op">$</span>q_val[,<span class="st">&quot;body.sitetongue&quot;</span>])]</span>
 <span id="cb25-11"><a href="#cb25-11"></a>taxa_sig &lt;-<span class="st"> </span>res.or_p[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>]</span>
 <span id="cb25-12"><a href="#cb25-12"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(taxa_sig, ps.taxa.rel)</span>
-<span id="cb25-13"><a href="#cb25-13"></a><span class="co"># Only keep gut and tongue samples, inherit grouping information from the previous DESeq2 analysis </span></span>
+<span id="cb25-13"><a href="#cb25-13"></a><span class="co"># Only keep gut and tongue samples </span></span>
 <span id="cb25-14"><a href="#cb25-14"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_samples</span>(<span class="kw">colnames</span>(<span class="kw">otu_table</span>(ps.taxa.sub)), ps.taxa.rel.sig)</span></code></pre></div>
 <p>Repeat heatmap script for the ANCOM result</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">data.frame</span>(<span class="kw">otu_table</span>(ps.taxa.rel.sig)))</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">rownames</span>(matrix) &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Species&quot;</span>]) <span class="co"># use species name as rownames</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">rownames</span>(matrix) &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Species&quot;</span>])</span>
 <span id="cb26-3"><a href="#cb26-3"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.taxa.rel.sig))</span>
 <span id="cb26-4"><a href="#cb26-4"></a><span class="co"># Define the annotation color for columns and rows</span></span>
 <span id="cb26-5"><a href="#cb26-5"></a>annotation_col =<span class="st"> </span><span class="kw">data.frame</span>(</span>
