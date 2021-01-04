@@ -8,6 +8,17 @@ body {
     font-size: 15px;
 }
 
+/* code */
+pre {
+  border: 1px solid #ddd;
+  box-shadow: 1px 1px 1px #eee;
+  padding: 1em;
+  overflow-x: auto;
+}
+pre code { 
+  background: none;
+}
+
 /* misc elements */
 img, iframe, video { max-width: 100%; }
 main { hyphens: auto; }
@@ -75,7 +86,7 @@ fieldset {
 table {
   margin-bottom: 1rem;
   overflow-x: auto;
-  width: 100%;
+  max-width: 100%;
   white-space: nowrap;
 }
 
@@ -220,10 +231,12 @@ ul {
 }
 
 .wrapper {
+    max-width: 900px;
     margin: 0 auto;
 }
 
 .container {
+    max-width: 900px;
     margin-top: 50px;
 }
 
@@ -433,7 +446,7 @@ ul {
     text-align: right;
 }
 
-@media {
+@media (max-width: 900px) {
     body {
         padding: 20px;
     }
