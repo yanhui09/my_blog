@@ -13,7 +13,7 @@ pre {
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -webkit-overflow-scrolling: touch;
   display: block;
-  width: 100%;
+  width: 90%;
   border: 1px solid #ddd;
   box-shadow: 5px 5px 5px #eee;
   padding: 1em;
@@ -127,7 +127,7 @@ textarea {
 blockquote {
     margin-left: 1rem;
     font-style: italic;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-family: Georgia,bitstream charter,serif;
     border-left: 3px solid;
     border-color: #3700ff;
@@ -235,7 +235,7 @@ ul {
 }
 
 .wrapper {
-    max-width: 760px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
@@ -480,7 +480,7 @@ ul {
     }
     .header .nav li {
         margin: 0 10px 0 0;
-        font-size: 14px;
+        font-size: 18px;
     }
 
     table {
@@ -488,6 +488,6 @@ ul {
       -webkit-overflow-scrolling: touch;
       display: block;
       overflow-x: auto;
-      width: 100%;
+      width: 90%;
     }
 }

@@ -155,8 +155,9 @@ TREE = read_tree("tree.nwk")
 ps <- phyloseq(OTU, TAX, SAMPLE,TREE)
 ```
 
-> There's one loop to clean the Greengene format taxonomy. See what has happened there?
-> Before 
+There's one loop to clean the Greengene format taxonomy. See what has happened there?  
+
+**Before**  
 
 ```r
 tax
@@ -166,7 +167,7 @@ tax
 DT::datatable(tax)
 ```
 
-> After
+**After**
 
 ```r
 taxa.clean
@@ -176,8 +177,7 @@ taxa.clean
 DT::datatable(tax.clean)
 ```
 
-> Tips: The cleaning process helps when you want to collapse the feature table at one specific level, e.g. species or genus. The taxonomy of feature is identified by the [LCA algorithm](https://en.wikipedia.org/wiki/Lowest_common_ancestor), so it's possible that some features are merely classified at genus or family level due to the [Sequence homology](https://en.wikipedia.org/wiki/Sequence_homology). The loop is just to iteratively fill in the gaps with respective lowest taxonomic classification, resulting in more details in visualization.  
-
+> Tips: The cleaning process helps when you want to collapse the feature table at one specific level, e.g. species or genus. The taxonomy of feature is identified by the [LCA algorithm](https://en.wikipedia.org/wiki/Lowest_common_ancestor), so it's possible that some features are merely classified at genus or family level due to the [sequence homology](https://en.wikipedia.org/wiki/Sequence_homology). The loop is just to iteratively fill in the gaps with respective lowest taxonomic classification, resulting in more details in visualization.  
 
 An integrated phyloseq project looks like
 ```{r, echo = FALSE}
