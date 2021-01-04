@@ -10,9 +10,6 @@ body {
 
 /* code */
 pre {
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  -webkit-overflow-scrolling: touch;
-  display: block;
   width: 100%;
   border: 1px solid #ddd;
   box-shadow: 5px 5px 5px #eee;
