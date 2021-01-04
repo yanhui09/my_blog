@@ -1,6 +1,6 @@
 html.dark body {
   color: #ddd;
-  background-color: #000;
+  background-color: #2E4053;
 }
 
 html.dark ::-moz-selection {
@@ -20,7 +20,7 @@ html.dark hr {
 }
 
 html.dark blockquote {
-  border-color: #ddd;
+  border-color: #AABDFA;
 }
 
 html.dark h1,
