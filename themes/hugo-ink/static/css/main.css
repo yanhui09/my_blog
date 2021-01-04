@@ -14,7 +14,9 @@ pre {
   box-shadow: 1px 1px 1px #eee;
   padding: 1em;
   overflow-x: auto;
-  width: 800px;
+}
+code {
+  width: 900px;
 }
 pre code { 
   background: none;
@@ -232,12 +234,12 @@ ul {
 }
 
 .wrapper {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin-top: 50px;
 }
 
@@ -447,7 +449,7 @@ ul {
     text-align: right;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     body {
         padding: 20px;
     }
