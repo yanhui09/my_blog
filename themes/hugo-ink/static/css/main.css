@@ -13,7 +13,7 @@ pre {
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -webkit-overflow-scrolling: touch;
   display: block;
-  width: 90%;
+  width: 100%;
   border: 1px solid #ddd;
   box-shadow: 5px 5px 5px #eee;
   padding: 1em;
@@ -91,7 +91,7 @@ fieldset {
 table {
   margin-bottom: 1rem;
   overflow-x: auto;
-  width: 100%;
+  width: 80%;
 }
 
 table th,
@@ -488,6 +488,6 @@ ul {
       -webkit-overflow-scrolling: touch;
       display: block;
       overflow-x: auto;
-      width: 90%;
+      width: 100%;
     }
 }
