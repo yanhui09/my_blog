@@ -446,7 +446,7 @@ ul {
     text-align: right;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     body {
         padding: 20px;
     }
