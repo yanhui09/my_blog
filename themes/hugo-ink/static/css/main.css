@@ -13,9 +13,8 @@ pre {
   border: 1px solid #ddd;
   box-shadow: 1px 1px 1px #eee;
   padding: 1em;
-
+  overflow-x: auto;
 }
-code { background: #C39BD3; }
 pre code { 
   background: none;
 }
