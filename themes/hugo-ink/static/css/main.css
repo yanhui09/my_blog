@@ -14,11 +14,12 @@ pre {
   box-shadow: 1px 1px 1px #eee;
   padding: 1em;
   overflow-x: auto;
-}
-code {
-  width: 900px;
+  max-width: 900px;
 }
 pre code { 
+  background: none;
+}
+pre output { 
   background: none;
 }
 
