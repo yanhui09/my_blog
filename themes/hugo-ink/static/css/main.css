@@ -91,7 +91,7 @@ fieldset {
 table {
   margin-bottom: 1rem;
   overflow-x: auto;
-  width: 80%;
+  width: 100%;
 }
 
 table th,
