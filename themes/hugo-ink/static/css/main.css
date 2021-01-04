@@ -10,10 +10,10 @@ body {
 
 /* code */
 pre {
-  width: 100%;
   border: 1px solid #ddd;
-  box-shadow: 5px 5px 5px #eee;
+  box-shadow: 1px 1px 1px #eee;
   padding: 1em;
+
 }
 code { background: #f9f9f9; }
 pre code { 
@@ -446,7 +446,7 @@ ul {
     text-align: right;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
     body {
         padding: 20px;
     }
