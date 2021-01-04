@@ -1,7 +1,8 @@
 html.dark body {
-  color: #ddd;
-  background-color: #2E4053;
+  color: #EAEDED;
+  background-color: #1B2631;
 }
+
 
 html.dark ::-moz-selection {
   background: #9375fd;
@@ -20,7 +21,8 @@ html.dark hr {
 }
 
 html.dark blockquote {
-  border-color: #AABDFA;
+  border-color: #9375fd;
+  background: #2E4053;
 }
 
 html.dark h1,
@@ -38,8 +40,8 @@ html.dark a,a:hover {
 }
 
 html.dark table tbody tr:nth-of-type(even) {
-  background-color: rgba(0, 0, 0, 0.15);
-  color: #fff
+  background-color: rgba(217, 222, 222, 1);
+  color: #1C2833
 }
 
 html.dark .site-description a,
@@ -49,7 +51,7 @@ html.dark .site-description a:hover {
 }
 
 html.dark a:hover {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 html.dark .post-tags .tags a {
