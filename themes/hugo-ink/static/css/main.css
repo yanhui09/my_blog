@@ -8,17 +8,6 @@ body {
     font-size: 15px;
 }
 
-/* code */
-pre {
-  border: 1px solid #ddd;
-  box-shadow: 1px 1px 1px #eee;
-  padding: 1em;
-  overflow-x: auto;
-}
-pre code { 
-  background: none;
-}
-
 /* misc elements */
 img, iframe, video { max-width: 100%; }
 main { hyphens: auto; }
