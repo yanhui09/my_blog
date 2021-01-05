@@ -10,14 +10,18 @@ body {
 
 /* code */
 pre {
+  border: 1px solid #ddd;
+  box-shadow: 5px 5px 5px #eee;
   padding: 1em;
   overflow: auto;
   max-height: 150px;
+  width: 100vw
 }
 code { background-color: #BC92CA; }
 pre code { 
   background: none;
   white-space: pre;
+  margin: 0;
 }
 
 a {
@@ -113,14 +117,14 @@ textarea {
 }
 
 blockquote {
-    margin-left: 1rem;
+    margin: auto;
     font-style: italic;
     font-size: 1rem;
     font-family: Georgia,bitstream charter,serif;
     border-left: 3px solid;
     border-color: #3700ff;
-    padding-left: 20px;
-	background: #EBDEF0;
+    padding-left: 10px;
+	  background: #EBDEF0;
 }
 
 blockquote cite {
