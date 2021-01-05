@@ -14,14 +14,11 @@ pre {
   box-shadow: 1px 1px 1px #eee;
   padding: 1em;
   width: 100%;
-  max-width: 800px;
 }
 pre code { 
   background: none;
 }
-pre output { 
-  background: none;
-}
+
 
 /* misc elements */
 img, iframe, video { max-width: 100%; }
