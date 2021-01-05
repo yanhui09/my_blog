@@ -324,7 +324,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-14"><a href="#cb16-14"></a>p.table</span></code></pre></div>
 <div id="htmlwidget-6" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-6">{"x":{"filter":"none","data":[["gut","gut","gut","left palm","left palm","right palm"],["left palm","right palm","tongue","right palm","tongue","tongue"],[0.001,0.003,0.001,0.942,0.001,0.002],[0.002,0.0036,0.002,0.942,0.002,0.003]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>1<\/th>\n      <th>2<\/th>\n      <th>p<\/th>\n      <th>p.adj<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<p>As we could see, there’s no difference in composition between the left and right palm samples. Similar result can be found using binary Jaccard metrics. Adjust the <code>dist = distance(ps.rarefied, method="jaccard", binary = TRUE)</code> and <code>permanova_pairwise &lt;- adonis(distance(ps.subs, method="jaccard", binary = TRUE) ~ body.site, data = metadata_sub)</code>, give it a try.</p>
+<p>As we could see, there’s no difference in composition between the left and right palm samples. Similar result can be found using binary Jaccard metrics. Adjust the script of PERMANOVA/ADONIS accordingly with the code blow:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>dist =<span class="st"> </span><span class="kw">distance</span>(ps.rarefied, <span class="dt">method=</span><span class="st">&quot;jaccard&quot;</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p>and</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>permanova_pairwise &lt;-<span class="st"> </span><span class="kw">adonis</span>(<span class="kw">distance</span>(ps.subs, <span class="dt">method=</span><span class="st">&quot;jaccard&quot;</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> </span>body.site, <span class="dt">data =</span> metadata_sub)<span class="st">`</span></span></code></pre></div>
+<p>Give it a try.</p>
 </div>
 <div id="nmds-and-anosim" class="section level4">
 <h4><a href="https://mb3is.megx.net/gustame/dissimilarity-based-methods/nmds">NMDS</a> and <a href="https://mb3is.megx.net/gustame/hypothesis-tests/anosim">ANOSIM</a></h4>
@@ -332,15 +336,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><em>Binary Jaccard</em></li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>dist =<span class="st"> </span>phyloseq<span class="op">::</span><span class="kw">distance</span>(ps.rarefied, <span class="dt">method=</span><span class="st">&quot;jaccard&quot;</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb17-2"><a href="#cb17-2"></a>ordination =<span class="st"> </span><span class="kw">ordinate</span>(ps.rarefied, <span class="dt">method=</span><span class="st">&quot;NMDS&quot;</span>, <span class="dt">distance=</span>dist)</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">plot_ordination</span>(ps.rarefied, ordination, <span class="dt">color=</span><span class="st">&quot;body.site&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">strip.background =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>dist =<span class="st"> </span>phyloseq<span class="op">::</span><span class="kw">distance</span>(ps.rarefied, <span class="dt">method=</span><span class="st">&quot;jaccard&quot;</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb19-2"><a href="#cb19-2"></a>ordination =<span class="st"> </span><span class="kw">ordinate</span>(ps.rarefied, <span class="dt">method=</span><span class="st">&quot;NMDS&quot;</span>, <span class="dt">distance=</span>dist)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">plot_ordination</span>(ps.rarefied, ordination, <span class="dt">color=</span><span class="st">&quot;body.site&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">strip.background =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-21-1.png" width="768" /></p>
 <p><em>ANOSIM</em></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>metadata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.rarefied))</span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="kw">anosim</span>(dist, metadata<span class="op">$</span>body.site)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>metadata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.rarefied))</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="kw">anosim</span>(dist, metadata<span class="op">$</span>body.site)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## anosim(x = dist, grouping = metadata$body.site) 
@@ -352,19 +356,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Permutation: free
 ## Number of permutations: 999</code></pre>
 <p><em>PAIRWISE ANOSIM</em></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>cbn &lt;-<span class="st"> </span><span class="kw">combn</span>(<span class="dt">x=</span><span class="kw">unique</span>(metadata<span class="op">$</span>body.site), <span class="dt">m =</span> <span class="dv">2</span>)</span>
-<span id="cb21-2"><a href="#cb21-2"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>()</span>
-<span id="cb21-3"><a href="#cb21-3"></a></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cbn)){</span>
-<span id="cb21-5"><a href="#cb21-5"></a>ps.subs &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(ps.rarefied, body.site <span class="op">%in%</span><span class="st"> </span>cbn[,i])</span>
-<span id="cb21-6"><a href="#cb21-6"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.subs))</span>
-<span id="cb21-7"><a href="#cb21-7"></a>permanova_pairwise &lt;-<span class="st"> </span><span class="kw">anosim</span>(phyloseq<span class="op">::</span><span class="kw">distance</span>(ps.subs, <span class="dt">method=</span><span class="st">&quot;jaccard&quot;</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>), </span>
-<span id="cb21-8"><a href="#cb21-8"></a>                             metadata_sub<span class="op">$</span>body.site)</span>
-<span id="cb21-9"><a href="#cb21-9"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(p, permanova_pairwise<span class="op">$</span>signif[<span class="dv">1</span>])</span>
-<span id="cb21-10"><a href="#cb21-10"></a>}</span>
-<span id="cb21-11"><a href="#cb21-11"></a></span>
-<span id="cb21-12"><a href="#cb21-12"></a>p.adj &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(p, <span class="dt">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb21-13"><a href="#cb21-13"></a>p.table &lt;-<span class="st"> </span><span class="kw">cbind.data.frame</span>(<span class="kw">t</span>(cbn), <span class="dt">p=</span>p, <span class="dt">p.adj=</span>p.adj)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>cbn &lt;-<span class="st"> </span><span class="kw">combn</span>(<span class="dt">x=</span><span class="kw">unique</span>(metadata<span class="op">$</span>body.site), <span class="dt">m =</span> <span class="dv">2</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>()</span>
+<span id="cb23-3"><a href="#cb23-3"></a></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cbn)){</span>
+<span id="cb23-5"><a href="#cb23-5"></a>ps.subs &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(ps.rarefied, body.site <span class="op">%in%</span><span class="st"> </span>cbn[,i])</span>
+<span id="cb23-6"><a href="#cb23-6"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.subs))</span>
+<span id="cb23-7"><a href="#cb23-7"></a>permanova_pairwise &lt;-<span class="st"> </span><span class="kw">anosim</span>(phyloseq<span class="op">::</span><span class="kw">distance</span>(ps.subs, <span class="dt">method=</span><span class="st">&quot;jaccard&quot;</span>, <span class="dt">binary =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb23-8"><a href="#cb23-8"></a>                             metadata_sub<span class="op">$</span>body.site)</span>
+<span id="cb23-9"><a href="#cb23-9"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(p, permanova_pairwise<span class="op">$</span>signif[<span class="dv">1</span>])</span>
+<span id="cb23-10"><a href="#cb23-10"></a>}</span>
+<span id="cb23-11"><a href="#cb23-11"></a></span>
+<span id="cb23-12"><a href="#cb23-12"></a>p.adj &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(p, <span class="dt">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb23-13"><a href="#cb23-13"></a>p.table &lt;-<span class="st"> </span><span class="kw">cbind.data.frame</span>(<span class="kw">t</span>(cbn), <span class="dt">p=</span>p, <span class="dt">p.adj=</span>p.adj)</span></code></pre></div>
 <div id="htmlwidget-7" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-7">{"x":{"filter":"none","data":[["gut","gut","gut","left palm","left palm","right palm"],["left palm","right palm","tongue","right palm","tongue","tongue"],[0.001,0.001,0.001,0.765,0.001,0.001],[0.0012,0.0012,0.0012,0.765,0.0012,0.0012]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>1<\/th>\n      <th>2<\/th>\n      <th>p<\/th>\n      <th>p.adj<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>The NMDS and ANOSIM result were similar to that from PCoA and ADONIS.</p>
@@ -376,140 +380,90 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><em>Phylum</em></li>
 </ul>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>ps.rel =<span class="st"> </span><span class="kw">transform_sample_counts</span>(ps, <span class="cf">function</span>(x) x<span class="op">/</span><span class="kw">sum</span>(x)<span class="op">*</span><span class="dv">100</span>)</span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="co"># agglomerate taxa</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>glom &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(ps.rel, <span class="dt">taxrank =</span> <span class="st">&#39;Phylum&#39;</span>, <span class="dt">NArm =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb22-4"><a href="#cb22-4"></a>ps.melt &lt;-<span class="st"> </span><span class="kw">psmelt</span>(glom)</span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="co"># change to character for easy-adjusted level</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a>ps.melt<span class="op">$</span>Phylum &lt;-<span class="st"> </span><span class="kw">as.character</span>(ps.melt<span class="op">$</span>Phylum)</span>
-<span id="cb22-7"><a href="#cb22-7"></a></span>
-<span id="cb22-8"><a href="#cb22-8"></a>ps.melt &lt;-<span class="st"> </span>ps.melt <span class="op">%&gt;%</span></span>
-<span id="cb22-9"><a href="#cb22-9"></a><span class="st">  </span><span class="kw">group_by</span>(body.site, Phylum) <span class="op">%&gt;%</span></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">median=</span><span class="kw">median</span>(Abundance))</span>
-<span id="cb22-11"><a href="#cb22-11"></a><span class="co"># select group median &gt; 1</span></span>
-<span id="cb22-12"><a href="#cb22-12"></a>keep &lt;-<span class="st"> </span><span class="kw">unique</span>(ps.melt<span class="op">$</span>Phylum[ps.melt<span class="op">$</span>median <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>])</span>
-<span id="cb22-13"><a href="#cb22-13"></a>ps.melt<span class="op">$</span>Phylum[<span class="op">!</span>(ps.melt<span class="op">$</span>Phylum <span class="op">%in%</span><span class="st"> </span>keep)] &lt;-<span class="st"> &quot;&lt; 1%&quot;</span></span>
-<span id="cb22-14"><a href="#cb22-14"></a><span class="co">#to get the same rows together</span></span>
-<span id="cb22-15"><a href="#cb22-15"></a>ps.melt_sum &lt;-<span class="st"> </span>ps.melt <span class="op">%&gt;%</span></span>
-<span id="cb22-16"><a href="#cb22-16"></a><span class="st">  </span><span class="kw">group_by</span>(Sample,body.site,Phylum) <span class="op">%&gt;%</span></span>
-<span id="cb22-17"><a href="#cb22-17"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Abundance=</span><span class="kw">sum</span>(Abundance))</span>
-<span id="cb22-18"><a href="#cb22-18"></a></span>
-<span id="cb22-19"><a href="#cb22-19"></a><span class="kw">ggplot</span>(ps.melt_sum, <span class="kw">aes</span>(<span class="dt">x =</span> Sample, <span class="dt">y =</span> Abundance, <span class="dt">fill =</span> Phylum)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb22-20"><a href="#cb22-20"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>Phylum)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb22-21"><a href="#cb22-21"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>, <span class="dt">y=</span><span class="st">&quot;%&quot;</span>) <span class="op">+</span></span>
-<span id="cb22-22"><a href="#cb22-22"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>body.site, <span class="dt">scales=</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">nrow=</span><span class="dv">1</span>) <span class="op">+</span></span>
-<span id="cb22-23"><a href="#cb22-23"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb22-24"><a href="#cb22-24"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">strip.background =</span> <span class="kw">element_blank</span>(), </span>
-<span id="cb22-25"><a href="#cb22-25"></a>        <span class="dt">axis.text.x.bottom =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">-90</span>))</span></code></pre></div>
-<p><img src="index_files/figure-html/phylum_abun-1.png" width="768" />
-<code>&lt; 1%</code> indicates the rare taxa in each group, with median relative abundance &lt; 1%.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>ps.rel =<span class="st"> </span><span class="kw">transform_sample_counts</span>(ps, <span class="cf">function</span>(x) x<span class="op">/</span><span class="kw">sum</span>(x)<span class="op">*</span><span class="dv">100</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="co"># agglomerate taxa</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>glom &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(ps.rel, <span class="dt">taxrank =</span> <span class="st">&#39;Phylum&#39;</span>, <span class="dt">NArm =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb24-4"><a href="#cb24-4"></a>ps.melt &lt;-<span class="st"> </span><span class="kw">psmelt</span>(glom)</span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="co"># change to character for easy-adjusted level</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>ps.melt<span class="op">$</span>Phylum &lt;-<span class="st"> </span><span class="kw">as.character</span>(ps.melt<span class="op">$</span>Phylum)</span>
+<span id="cb24-7"><a href="#cb24-7"></a></span>
+<span id="cb24-8"><a href="#cb24-8"></a>ps.melt &lt;-<span class="st"> </span>ps.melt <span class="op">%&gt;%</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a><span class="st">  </span><span class="kw">group_by</span>(body.site, Phylum) <span class="op">%&gt;%</span></span>
+<span id="cb24-10"><a href="#cb24-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">median=</span><span class="kw">median</span>(Abundance))</span>
+<span id="cb24-11"><a href="#cb24-11"></a><span class="co"># select group median &gt; 1</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a>keep &lt;-<span class="st"> </span><span class="kw">unique</span>(ps.melt<span class="op">$</span>Phylum[ps.melt<span class="op">$</span>median <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>])</span>
+<span id="cb24-13"><a href="#cb24-13"></a>ps.melt<span class="op">$</span>Phylum[<span class="op">!</span>(ps.melt<span class="op">$</span>Phylum <span class="op">%in%</span><span class="st"> </span>keep)] &lt;-<span class="st"> &quot;&lt; 1%&quot;</span></span>
+<span id="cb24-14"><a href="#cb24-14"></a><span class="co">#to get the same rows together</span></span>
+<span id="cb24-15"><a href="#cb24-15"></a>ps.melt_sum &lt;-<span class="st"> </span>ps.melt <span class="op">%&gt;%</span></span>
+<span id="cb24-16"><a href="#cb24-16"></a><span class="st">  </span><span class="kw">group_by</span>(Sample,body.site,Phylum) <span class="op">%&gt;%</span></span>
+<span id="cb24-17"><a href="#cb24-17"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Abundance=</span><span class="kw">sum</span>(Abundance))</span>
+<span id="cb24-18"><a href="#cb24-18"></a></span>
+<span id="cb24-19"><a href="#cb24-19"></a><span class="kw">ggplot</span>(ps.melt_sum, <span class="kw">aes</span>(<span class="dt">x =</span> Sample, <span class="dt">y =</span> Abundance, <span class="dt">fill =</span> Phylum)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb24-20"><a href="#cb24-20"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>Phylum)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb24-21"><a href="#cb24-21"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>, <span class="dt">y=</span><span class="st">&quot;%&quot;</span>) <span class="op">+</span></span>
+<span id="cb24-22"><a href="#cb24-22"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>body.site, <span class="dt">scales=</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">nrow=</span><span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb24-23"><a href="#cb24-23"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb24-24"><a href="#cb24-24"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">strip.background =</span> <span class="kw">element_blank</span>(), </span>
+<span id="cb24-25"><a href="#cb24-25"></a>        <span class="dt">axis.text.x.bottom =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">-90</span>))</span></code></pre></div>
+<p><img src="index_files/figure-html/phylum_abun-1.png" width="768" /></p>
+<p><code>&lt; 1%</code> indicates the rare taxa in each group, with median relative abundance &lt; 1%.</p>
 <ul>
 <li><em>Genus</em></li>
 </ul>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>ps.rel =<span class="st"> </span><span class="kw">transform_sample_counts</span>(ps, <span class="cf">function</span>(x) x<span class="op">/</span><span class="kw">sum</span>(x)<span class="op">*</span><span class="dv">100</span>)</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="co"># agglomerate taxa</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a>glom &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(ps.rel, <span class="dt">taxrank =</span> <span class="st">&#39;Genus&#39;</span>, <span class="dt">NArm =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb23-4"><a href="#cb23-4"></a>ps.melt &lt;-<span class="st"> </span><span class="kw">psmelt</span>(glom)</span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="co"># change to character for easy-adjusted level</span></span>
-<span id="cb23-6"><a href="#cb23-6"></a>ps.melt<span class="op">$</span>Genus &lt;-<span class="st"> </span><span class="kw">as.character</span>(ps.melt<span class="op">$</span>Genus)</span>
-<span id="cb23-7"><a href="#cb23-7"></a></span>
-<span id="cb23-8"><a href="#cb23-8"></a>ps.melt &lt;-<span class="st"> </span>ps.melt <span class="op">%&gt;%</span></span>
-<span id="cb23-9"><a href="#cb23-9"></a><span class="st">  </span><span class="kw">group_by</span>(body.site, Genus) <span class="op">%&gt;%</span></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">median=</span><span class="kw">median</span>(Abundance))</span>
-<span id="cb23-11"><a href="#cb23-11"></a><span class="co"># select group mean &gt; 1</span></span>
-<span id="cb23-12"><a href="#cb23-12"></a>keep &lt;-<span class="st"> </span><span class="kw">unique</span>(ps.melt<span class="op">$</span>Genus[ps.melt<span class="op">$</span>median <span class="op">&gt;</span><span class="st"> </span><span class="fl">2.5</span>])</span>
-<span id="cb23-13"><a href="#cb23-13"></a>ps.melt<span class="op">$</span>Genus[<span class="op">!</span>(ps.melt<span class="op">$</span>Genus <span class="op">%in%</span><span class="st"> </span>keep)] &lt;-<span class="st"> &quot;&lt; 2.5%&quot;</span></span>
-<span id="cb23-14"><a href="#cb23-14"></a><span class="co">#to get the same rows together</span></span>
-<span id="cb23-15"><a href="#cb23-15"></a>ps.melt_sum &lt;-<span class="st"> </span>ps.melt <span class="op">%&gt;%</span></span>
-<span id="cb23-16"><a href="#cb23-16"></a><span class="st">  </span><span class="kw">group_by</span>(Sample,body.site,Genus) <span class="op">%&gt;%</span></span>
-<span id="cb23-17"><a href="#cb23-17"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Abundance=</span><span class="kw">sum</span>(Abundance))</span>
-<span id="cb23-18"><a href="#cb23-18"></a></span>
-<span id="cb23-19"><a href="#cb23-19"></a><span class="kw">ggplot</span>(ps.melt_sum, <span class="kw">aes</span>(<span class="dt">x =</span> Sample, <span class="dt">y =</span> Abundance, <span class="dt">fill =</span> Genus)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb23-20"><a href="#cb23-20"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>Genus)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb23-21"><a href="#cb23-21"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>, <span class="dt">y=</span><span class="st">&quot;%&quot;</span>) <span class="op">+</span></span>
-<span id="cb23-22"><a href="#cb23-22"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>body.site, <span class="dt">scales=</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">nrow=</span><span class="dv">1</span>) <span class="op">+</span></span>
-<span id="cb23-23"><a href="#cb23-23"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb23-24"><a href="#cb23-24"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;right&quot;</span>, </span>
-<span id="cb23-25"><a href="#cb23-25"></a>        <span class="dt">strip.background =</span> <span class="kw">element_blank</span>(), </span>
-<span id="cb23-26"><a href="#cb23-26"></a>        <span class="dt">axis.text.x.bottom =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">-90</span>))</span></code></pre></div>
-<p><img src="index_files/figure-html/genus_abun-1.png" width="768" />
-<code>&lt; 2.5%</code> indicates the rare taxa in each group, with median relative abundance &lt; 2.5%.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>ps.rel =<span class="st"> </span><span class="kw">transform_sample_counts</span>(ps, <span class="cf">function</span>(x) x<span class="op">/</span><span class="kw">sum</span>(x)<span class="op">*</span><span class="dv">100</span>)</span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="co"># agglomerate taxa</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>glom &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(ps.rel, <span class="dt">taxrank =</span> <span class="st">&#39;Genus&#39;</span>, <span class="dt">NArm =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb25-4"><a href="#cb25-4"></a>ps.melt &lt;-<span class="st"> </span><span class="kw">psmelt</span>(glom)</span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="co"># change to character for easy-adjusted level</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>ps.melt<span class="op">$</span>Genus &lt;-<span class="st"> </span><span class="kw">as.character</span>(ps.melt<span class="op">$</span>Genus)</span>
+<span id="cb25-7"><a href="#cb25-7"></a></span>
+<span id="cb25-8"><a href="#cb25-8"></a>ps.melt &lt;-<span class="st"> </span>ps.melt <span class="op">%&gt;%</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="st">  </span><span class="kw">group_by</span>(body.site, Genus) <span class="op">%&gt;%</span></span>
+<span id="cb25-10"><a href="#cb25-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">median=</span><span class="kw">median</span>(Abundance))</span>
+<span id="cb25-11"><a href="#cb25-11"></a><span class="co"># select group mean &gt; 1</span></span>
+<span id="cb25-12"><a href="#cb25-12"></a>keep &lt;-<span class="st"> </span><span class="kw">unique</span>(ps.melt<span class="op">$</span>Genus[ps.melt<span class="op">$</span>median <span class="op">&gt;</span><span class="st"> </span><span class="fl">2.5</span>])</span>
+<span id="cb25-13"><a href="#cb25-13"></a>ps.melt<span class="op">$</span>Genus[<span class="op">!</span>(ps.melt<span class="op">$</span>Genus <span class="op">%in%</span><span class="st"> </span>keep)] &lt;-<span class="st"> &quot;&lt; 2.5%&quot;</span></span>
+<span id="cb25-14"><a href="#cb25-14"></a><span class="co">#to get the same rows together</span></span>
+<span id="cb25-15"><a href="#cb25-15"></a>ps.melt_sum &lt;-<span class="st"> </span>ps.melt <span class="op">%&gt;%</span></span>
+<span id="cb25-16"><a href="#cb25-16"></a><span class="st">  </span><span class="kw">group_by</span>(Sample,body.site,Genus) <span class="op">%&gt;%</span></span>
+<span id="cb25-17"><a href="#cb25-17"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Abundance=</span><span class="kw">sum</span>(Abundance))</span>
+<span id="cb25-18"><a href="#cb25-18"></a></span>
+<span id="cb25-19"><a href="#cb25-19"></a><span class="kw">ggplot</span>(ps.melt_sum, <span class="kw">aes</span>(<span class="dt">x =</span> Sample, <span class="dt">y =</span> Abundance, <span class="dt">fill =</span> Genus)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-20"><a href="#cb25-20"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>Genus)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-21"><a href="#cb25-21"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>, <span class="dt">y=</span><span class="st">&quot;%&quot;</span>) <span class="op">+</span></span>
+<span id="cb25-22"><a href="#cb25-22"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>body.site, <span class="dt">scales=</span> <span class="st">&quot;free_x&quot;</span>, <span class="dt">nrow=</span><span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb25-23"><a href="#cb25-23"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-24"><a href="#cb25-24"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;right&quot;</span>, </span>
+<span id="cb25-25"><a href="#cb25-25"></a>        <span class="dt">strip.background =</span> <span class="kw">element_blank</span>(), </span>
+<span id="cb25-26"><a href="#cb25-26"></a>        <span class="dt">axis.text.x.bottom =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">-90</span>))</span></code></pre></div>
+<p><img src="index_files/figure-html/genus_abun-1.png" width="768" /></p>
+<p><code>&lt; 2.5%</code> indicates the rare taxa in each group, with median relative abundance &lt; 2.5%.</p>
 </div>
 <div id="differential-abundance-analysis" class="section level2">
 <h2>Differential abundance analysis</h2>
 <p>Differential abundance analysis allows you to identify differentially abundant taxa between groups. There’s many methods, here two commonly used ones are given as examples. Features are collapsed at the species-level prior to the calculation.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">sample_data</span>(ps)<span class="op">$</span>body.site &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">sample_data</span>(ps)<span class="op">$</span>body.site) <span class="co"># factorize for DESeq2</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>ps.taxa &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(ps, <span class="dt">taxrank =</span> <span class="st">&#39;Species&#39;</span>, <span class="dt">NArm =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">sample_data</span>(ps)<span class="op">$</span>body.site &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">sample_data</span>(ps)<span class="op">$</span>body.site) <span class="co"># factorize for DESeq2</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>ps.taxa &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(ps, <span class="dt">taxrank =</span> <span class="st">&#39;Species&#39;</span>, <span class="dt">NArm =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p>Let’s see what features are enriched differentially between tongue and gut samples.</p>
 <div id="deseq2" class="section level3">
 <h3>DESeq2</h3>
 <p>DESeq2 is a software designed for RNA-seq, but also used in <a href="https://joey711.github.io/phyloseq-extensions/DESeq2.html">microbiome analysis</a>, and the detailed use of DESeq2 can be found <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#variations-to-the-standard-workflow">here</a>. You may be troubled by the “zero” issues in microbiome analysis. A pseudo count is added to avoid the errors in logarithm transformation.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>ps.taxa.pse &lt;-<span class="st"> </span>ps.taxa</span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="kw">otu_table</span>(ps.taxa.pse) &lt;-<span class="st"> </span><span class="kw">otu_table</span>(ps.taxa) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="co"># pairwise comparison between gut and tongue</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>ps.taxa.pse.sub &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(ps.taxa.pse, body.site <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gut&quot;</span>, <span class="st">&quot;tongue&quot;</span>))</span>
-<span id="cb25-5"><a href="#cb25-5"></a>ds =<span class="st"> </span><span class="kw">phyloseq_to_deseq2</span>(ps.taxa.pse.sub, <span class="op">~</span><span class="st"> </span>body.site)</span>
-<span id="cb25-6"><a href="#cb25-6"></a>ds =<span class="st"> </span><span class="kw">DESeq</span>(ds, <span class="dt">test=</span><span class="st">&quot;Wald&quot;</span>, <span class="dt">fitType=</span><span class="st">&quot;parametric&quot;</span>)</span>
-<span id="cb25-7"><a href="#cb25-7"></a>alpha =<span class="st"> </span><span class="fl">0.05</span> </span>
-<span id="cb25-8"><a href="#cb25-8"></a>res =<span class="st"> </span><span class="kw">results</span>(ds, <span class="dt">alpha=</span>alpha)</span>
-<span id="cb25-9"><a href="#cb25-9"></a>res =<span class="st"> </span>res[<span class="kw">order</span>(res<span class="op">$</span>padj, <span class="dt">na.last=</span><span class="ot">NA</span>), ]</span>
-<span id="cb25-10"><a href="#cb25-10"></a>taxa_sig =<span class="st"> </span><span class="kw">rownames</span>(res[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]) <span class="co"># select bottom 20 with lowest p.adj values</span></span>
-<span id="cb25-11"><a href="#cb25-11"></a>ps.taxa.rel &lt;-<span class="st"> </span><span class="kw">transform_sample_counts</span>(ps, <span class="cf">function</span>(x) x<span class="op">/</span><span class="kw">sum</span>(x)<span class="op">*</span><span class="dv">100</span>)</span>
-<span id="cb25-12"><a href="#cb25-12"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(taxa_sig, ps.taxa.rel)</span>
-<span id="cb25-13"><a href="#cb25-13"></a><span class="co"># Only keep gut and tongue samples</span></span>
-<span id="cb25-14"><a href="#cb25-14"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_samples</span>(<span class="kw">colnames</span>(<span class="kw">otu_table</span>(ps.taxa.pse.sub)), ps.taxa.rel.sig)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>ps.taxa.pse &lt;-<span class="st"> </span>ps.taxa</span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="kw">otu_table</span>(ps.taxa.pse) &lt;-<span class="st"> </span><span class="kw">otu_table</span>(ps.taxa) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="co"># pairwise comparison between gut and tongue</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a>ps.taxa.pse.sub &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(ps.taxa.pse, body.site <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gut&quot;</span>, <span class="st">&quot;tongue&quot;</span>))</span>
+<span id="cb27-5"><a href="#cb27-5"></a>ds =<span class="st"> </span><span class="kw">phyloseq_to_deseq2</span>(ps.taxa.pse.sub, <span class="op">~</span><span class="st"> </span>body.site)</span>
+<span id="cb27-6"><a href="#cb27-6"></a>ds =<span class="st"> </span><span class="kw">DESeq</span>(ds, <span class="dt">test=</span><span class="st">&quot;Wald&quot;</span>, <span class="dt">fitType=</span><span class="st">&quot;parametric&quot;</span>)</span>
+<span id="cb27-7"><a href="#cb27-7"></a>alpha =<span class="st"> </span><span class="fl">0.05</span> </span>
+<span id="cb27-8"><a href="#cb27-8"></a>res =<span class="st"> </span><span class="kw">results</span>(ds, <span class="dt">alpha=</span>alpha)</span>
+<span id="cb27-9"><a href="#cb27-9"></a>res =<span class="st"> </span>res[<span class="kw">order</span>(res<span class="op">$</span>padj, <span class="dt">na.last=</span><span class="ot">NA</span>), ]</span>
+<span id="cb27-10"><a href="#cb27-10"></a>taxa_sig =<span class="st"> </span><span class="kw">rownames</span>(res[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]) <span class="co"># select bottom 20 with lowest p.adj values</span></span>
+<span id="cb27-11"><a href="#cb27-11"></a>ps.taxa.rel &lt;-<span class="st"> </span><span class="kw">transform_sample_counts</span>(ps, <span class="cf">function</span>(x) x<span class="op">/</span><span class="kw">sum</span>(x)<span class="op">*</span><span class="dv">100</span>)</span>
+<span id="cb27-12"><a href="#cb27-12"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(taxa_sig, ps.taxa.rel)</span>
+<span id="cb27-13"><a href="#cb27-13"></a><span class="co"># Only keep gut and tongue samples</span></span>
+<span id="cb27-14"><a href="#cb27-14"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_samples</span>(<span class="kw">colnames</span>(<span class="kw">otu_table</span>(ps.taxa.pse.sub)), ps.taxa.rel.sig)</span></code></pre></div>
 <p>Visualize these biomarkers in heatmap using R package <a href="https://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html">ComplexHeatmap</a>, which is an improved package on the basis of pheatmap. A detailed reference book about ComplexHeatmap is <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/">here</a>. I like it because of its flexibility relative to built-in heatmap(), gplots::heatmap.2(), pheatmap::pheatmap() and heatmap3::heatmap(). However, the mentioned ones can also be adopted given the same theory of heatmap. The added function <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/integrate-with-other-packages.html#pheatmap">ComplexHeatmap::pheatmap</a> inherited most settings of pheatmap, so I adopt it here to make code easily understood.</p>
 <p>To make <code>pheatmap</code> specific, it is written as <code>ComplexHeatmap::pheatmap</code></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">data.frame</span>(<span class="kw">otu_table</span>(ps.taxa.rel.sig)))</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">rownames</span>(matrix) &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Species&quot;</span>])</span>
-<span id="cb26-3"><a href="#cb26-3"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.taxa.rel.sig))</span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="co"># Define the annotation color for columns and rows</span></span>
-<span id="cb26-5"><a href="#cb26-5"></a>annotation_col =<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb26-6"><a href="#cb26-6"></a>    <span class="dt">Subject =</span> <span class="kw">as.factor</span>(metadata_sub<span class="op">$</span>subject), </span>
-<span id="cb26-7"><a href="#cb26-7"></a>    <span class="st">`</span><span class="dt">Body site</span><span class="st">`</span> =<span class="st"> </span><span class="kw">as.factor</span>(metadata_sub<span class="op">$</span>body.site), </span>
-<span id="cb26-8"><a href="#cb26-8"></a>    <span class="dt">check.names =</span> <span class="ot">FALSE</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a>)</span>
-<span id="cb26-10"><a href="#cb26-10"></a><span class="kw">rownames</span>(annotation_col) =<span class="st"> </span><span class="kw">rownames</span>(metadata_sub)</span>
-<span id="cb26-11"><a href="#cb26-11"></a></span>
-<span id="cb26-12"><a href="#cb26-12"></a>annotation_row =<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb26-13"><a href="#cb26-13"></a>    <span class="dt">Phylum =</span> <span class="kw">as.factor</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Phylum&quot;</span>])</span>
-<span id="cb26-14"><a href="#cb26-14"></a>)</span>
-<span id="cb26-15"><a href="#cb26-15"></a><span class="kw">rownames</span>(annotation_row) =<span class="st"> </span><span class="kw">rownames</span>(matrix)</span>
-<span id="cb26-16"><a href="#cb26-16"></a></span>
-<span id="cb26-17"><a href="#cb26-17"></a><span class="co"># ann_color should be named vectors</span></span>
-<span id="cb26-18"><a href="#cb26-18"></a>phylum_col =<span class="st"> </span>RColorBrewer<span class="op">::</span><span class="kw">brewer.pal</span>(<span class="kw">length</span>(<span class="kw">levels</span>(annotation_row<span class="op">$</span>Phylum)), <span class="st">&quot;Paired&quot;</span>)</span>
-<span id="cb26-19"><a href="#cb26-19"></a><span class="kw">names</span>(phylum_col) =<span class="st"> </span><span class="kw">levels</span>(annotation_row<span class="op">$</span>Phylum)</span>
-<span id="cb26-20"><a href="#cb26-20"></a>ann_colors =<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb26-21"><a href="#cb26-21"></a>    <span class="dt">Subject =</span> <span class="kw">c</span>(<span class="st">`</span><span class="dt">subject-1</span><span class="st">`</span> =<span class="st"> &quot;red&quot;</span>, <span class="st">`</span><span class="dt">subject-2</span><span class="st">`</span> =<span class="st"> &quot;blue&quot;</span>),</span>
-<span id="cb26-22"><a href="#cb26-22"></a>    <span class="st">`</span><span class="dt">Body site</span><span class="st">`</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dt">gut =</span> <span class="st">&quot;purple&quot;</span>, <span class="dt">tongue =</span> <span class="st">&quot;yellow&quot;</span>),</span>
-<span id="cb26-23"><a href="#cb26-23"></a>    <span class="dt">Phylum =</span> phylum_col</span>
-<span id="cb26-24"><a href="#cb26-24"></a>)</span>
-<span id="cb26-25"><a href="#cb26-25"></a></span>
-<span id="cb26-26"><a href="#cb26-26"></a>ComplexHeatmap<span class="op">::</span><span class="kw">pheatmap</span>(matrix, <span class="dt">scale=</span> <span class="st">&quot;row&quot;</span>, </span>
-<span id="cb26-27"><a href="#cb26-27"></a>                         <span class="dt">annotation_col =</span> annotation_col, </span>
-<span id="cb26-28"><a href="#cb26-28"></a>                         <span class="dt">annotation_row =</span> annotation_row, </span>
-<span id="cb26-29"><a href="#cb26-29"></a>                         <span class="dt">annotation_colors =</span> ann_colors)</span></code></pre></div>
-<p><img src="index_files/figure-html/deseq2-1.png" width="768" /></p>
-</div>
-<div id="ancom-bc" class="section level3">
-<h3>ANCOM-BC</h3>
-<p>Here I will introduce another statistical method specially designed for Microbiome data. I like its theory behind - sequencing is a process of sampling. For a microbial community under adequate sequencing, the ratio of two specific taxa should be theoretically the “same” when calculated using either the profiled relative abundances or the absolute abundance. The theory can be found in their <a href="https://www.nature.com/articles/s41467-020-17041-7">published paper</a>. ANCOM is one recommended method by QIIME 2 and similar theory is also adopted by another QIIME 2 plugin- <a href="https://docs.qiime2.org/2020.11/tutorials/gneiss/">Geneiss</a>. ANCOM is originally written in R and hosted in NIH, but the link has expired now. The <a href="https://docs.qiime2.org/2020.11/plugins/available/composition/">q2-compositon</a> plugin is one accessible version to my knowledge. In that QIIME has no official R API, I recommend using improved ANCOM version e.g. <a href="https://github.com/FrederickHuangLin/ANCOM">ANCOM 2</a> or <a href="https://github.com/FrederickHuangLin/ANCOMBC">ANCOM-BC</a>. These two have not been included in QIIME 2 and maintained by the lab members of the original ANCOM paper. The key differences between ANCOM 2 and ANCOM are how they treat <em>zeros</em> and the introduced process of repeated data, and more can be found in the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5682008/">paper</a>. Considering the structure of code, ANCOM 2 is more like a wrapped R function of ANCOM, especially relative to ANCOM-BC. ANCOM-BC inherited the methodology of pre-processing <em>zeros</em> in ANCOM but estimated the sampling bias by linear regression. Besides, it provides <em>p</em> values and according to the author, it is blazingly fast while controlling the FDR and maintaining adequate power. ANCOM-BC is maintained at <a href="http://www.bioconductor.org/packages/release/bioc/html/ANCOMBC.html">bioconductor</a>, and a vignette is <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC.html">here</a>. It’s worth noting that ANCOM-BC is in development and now (Jan 2021) <a href="https://github.com/FrederickHuangLin/ANCOMBC/issues/5">only support testing for co-variates and global test</a>.</p>
-<p>ANCOM-BC is adopted here to repeat the test above. Here it takes <em>gut</em> label as a reference to other <em>body site</em> groups.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># pairwise comparison between gut and tongue</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>ps.taxa.sub &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(ps.taxa, body.site <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gut&quot;</span>, <span class="st">&quot;tongue&quot;</span>))</span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="co"># ancombc</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a>out &lt;-<span class="st"> </span><span class="kw">ancombc</span>(<span class="dt">phyloseq =</span> ps.taxa.sub, <span class="dt">formula =</span> <span class="st">&quot;body.site&quot;</span>, </span>
-<span id="cb27-5"><a href="#cb27-5"></a>              <span class="dt">p_adj_method =</span> <span class="st">&quot;holm&quot;</span>, <span class="dt">zero_cut =</span> <span class="fl">0.90</span>, <span class="dt">lib_cut =</span> <span class="dv">1000</span>, </span>
-<span id="cb27-6"><a href="#cb27-6"></a>              <span class="dt">group =</span> <span class="st">&quot;body.site&quot;</span>, <span class="dt">struc_zero =</span> <span class="ot">TRUE</span>, <span class="dt">neg_lb =</span> <span class="ot">TRUE</span>, <span class="dt">tol =</span> <span class="fl">1e-5</span>, </span>
-<span id="cb27-7"><a href="#cb27-7"></a>              <span class="dt">max_iter =</span> <span class="dv">100</span>, <span class="dt">conserve =</span> <span class="ot">TRUE</span>, <span class="dt">alpha =</span> <span class="fl">0.05</span>, <span class="dt">global =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb27-8"><a href="#cb27-8"></a>res &lt;-<span class="st"> </span>out<span class="op">$</span>res</span>
-<span id="cb27-9"><a href="#cb27-9"></a><span class="co"># select the bottom 20 with lowest p values</span></span>
-<span id="cb27-10"><a href="#cb27-10"></a>res.or_p &lt;-<span class="st"> </span><span class="kw">rownames</span>(res<span class="op">$</span>q_val[,<span class="st">&quot;body.sitetongue&quot;</span>])[base<span class="op">::</span><span class="kw">order</span>(res<span class="op">$</span>q_val[,<span class="st">&quot;body.sitetongue&quot;</span>])]</span>
-<span id="cb27-11"><a href="#cb27-11"></a>taxa_sig &lt;-<span class="st"> </span>res.or_p[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>]</span>
-<span id="cb27-12"><a href="#cb27-12"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(taxa_sig, ps.taxa.rel)</span>
-<span id="cb27-13"><a href="#cb27-13"></a><span class="co"># Only keep gut and tongue samples </span></span>
-<span id="cb27-14"><a href="#cb27-14"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_samples</span>(<span class="kw">colnames</span>(<span class="kw">otu_table</span>(ps.taxa.sub)), ps.taxa.rel.sig)</span></code></pre></div>
-<p>Repeat heatmap script for the ANCOM result</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">data.frame</span>(<span class="kw">otu_table</span>(ps.taxa.rel.sig)))</span>
 <span id="cb28-2"><a href="#cb28-2"></a><span class="kw">rownames</span>(matrix) &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Species&quot;</span>])</span>
 <span id="cb28-3"><a href="#cb28-3"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.taxa.rel.sig))</span>
@@ -531,13 +485,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb28-19"><a href="#cb28-19"></a><span class="kw">names</span>(phylum_col) =<span class="st"> </span><span class="kw">levels</span>(annotation_row<span class="op">$</span>Phylum)</span>
 <span id="cb28-20"><a href="#cb28-20"></a>ann_colors =<span class="st"> </span><span class="kw">list</span>(</span>
 <span id="cb28-21"><a href="#cb28-21"></a>    <span class="dt">Subject =</span> <span class="kw">c</span>(<span class="st">`</span><span class="dt">subject-1</span><span class="st">`</span> =<span class="st"> &quot;red&quot;</span>, <span class="st">`</span><span class="dt">subject-2</span><span class="st">`</span> =<span class="st"> &quot;blue&quot;</span>),</span>
-<span id="cb28-22"><a href="#cb28-22"></a>    <span class="st">`</span><span class="dt">Body site</span><span class="st">`</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">`</span><span class="dt">gut</span><span class="st">`</span> =<span class="st"> &quot;purple&quot;</span>, <span class="dt">tongue =</span> <span class="st">&quot;yellow&quot;</span>),</span>
+<span id="cb28-22"><a href="#cb28-22"></a>    <span class="st">`</span><span class="dt">Body site</span><span class="st">`</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dt">gut =</span> <span class="st">&quot;purple&quot;</span>, <span class="dt">tongue =</span> <span class="st">&quot;yellow&quot;</span>),</span>
 <span id="cb28-23"><a href="#cb28-23"></a>    <span class="dt">Phylum =</span> phylum_col</span>
 <span id="cb28-24"><a href="#cb28-24"></a>)</span>
-<span id="cb28-25"><a href="#cb28-25"></a>ComplexHeatmap<span class="op">::</span><span class="kw">pheatmap</span>(matrix, <span class="dt">scale=</span> <span class="st">&quot;row&quot;</span>, </span>
-<span id="cb28-26"><a href="#cb28-26"></a>                         <span class="dt">annotation_col =</span> annotation_col, </span>
-<span id="cb28-27"><a href="#cb28-27"></a>                         <span class="dt">annotation_row =</span> annotation_row, </span>
-<span id="cb28-28"><a href="#cb28-28"></a>                         <span class="dt">annotation_colors =</span> ann_colors)</span></code></pre></div>
+<span id="cb28-25"><a href="#cb28-25"></a></span>
+<span id="cb28-26"><a href="#cb28-26"></a>ComplexHeatmap<span class="op">::</span><span class="kw">pheatmap</span>(matrix, <span class="dt">scale=</span> <span class="st">&quot;row&quot;</span>, </span>
+<span id="cb28-27"><a href="#cb28-27"></a>                         <span class="dt">annotation_col =</span> annotation_col, </span>
+<span id="cb28-28"><a href="#cb28-28"></a>                         <span class="dt">annotation_row =</span> annotation_row, </span>
+<span id="cb28-29"><a href="#cb28-29"></a>                         <span class="dt">annotation_colors =</span> ann_colors)</span></code></pre></div>
+<p><img src="index_files/figure-html/deseq2-1.png" width="768" /></p>
+</div>
+<div id="ancom-bc" class="section level3">
+<h3>ANCOM-BC</h3>
+<p>Here I will introduce another statistical method specially designed for Microbiome data. I like its theory behind - sequencing is a process of sampling. For a microbial community under adequate sequencing, the ratio of two specific taxa should be theoretically the “same” when calculated using either the profiled relative abundances or the absolute abundance. The theory can be found in their <a href="https://www.nature.com/articles/s41467-020-17041-7">published paper</a>. ANCOM is one recommended method by QIIME 2 and similar theory is also adopted by another QIIME 2 plugin- <a href="https://docs.qiime2.org/2020.11/tutorials/gneiss/">Geneiss</a>. ANCOM is originally written in R and hosted in NIH, but the link has expired now. The <a href="https://docs.qiime2.org/2020.11/plugins/available/composition/">q2-compositon</a> plugin is one accessible version to my knowledge. In that QIIME has no official R API, I recommend using improved ANCOM version e.g. <a href="https://github.com/FrederickHuangLin/ANCOM">ANCOM 2</a> or <a href="https://github.com/FrederickHuangLin/ANCOMBC">ANCOM-BC</a>. These two have not been included in QIIME 2 and maintained by the lab members of the original ANCOM paper. The key differences between ANCOM 2 and ANCOM are how they treat <em>zeros</em> and the introduced process of repeated data, and more can be found in the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5682008/">paper</a>. Considering the structure of code, ANCOM 2 is more like a wrapped R function of ANCOM, especially relative to ANCOM-BC. ANCOM-BC inherited the methodology of pre-processing <em>zeros</em> in ANCOM but estimated the sampling bias by linear regression. Besides, it provides <em>p</em> values and according to the author, it is blazingly fast while controlling the FDR and maintaining adequate power. ANCOM-BC is maintained at <a href="http://www.bioconductor.org/packages/release/bioc/html/ANCOMBC.html">bioconductor</a>, and a vignette is <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC.html">here</a>. It’s worth noting that ANCOM-BC is in development and now (Jan 2021) <a href="https://github.com/FrederickHuangLin/ANCOMBC/issues/5">only support testing for co-variates and global test</a>.</p>
+<p>ANCOM-BC is adopted here to repeat the test above. Here it takes <em>gut</em> label as a reference to other <em>body site</em> groups.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># pairwise comparison between gut and tongue</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>ps.taxa.sub &lt;-<span class="st"> </span><span class="kw">subset_samples</span>(ps.taxa, body.site <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gut&quot;</span>, <span class="st">&quot;tongue&quot;</span>))</span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="co"># ancombc</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>out &lt;-<span class="st"> </span><span class="kw">ancombc</span>(<span class="dt">phyloseq =</span> ps.taxa.sub, <span class="dt">formula =</span> <span class="st">&quot;body.site&quot;</span>, </span>
+<span id="cb29-5"><a href="#cb29-5"></a>              <span class="dt">p_adj_method =</span> <span class="st">&quot;holm&quot;</span>, <span class="dt">zero_cut =</span> <span class="fl">0.90</span>, <span class="dt">lib_cut =</span> <span class="dv">1000</span>, </span>
+<span id="cb29-6"><a href="#cb29-6"></a>              <span class="dt">group =</span> <span class="st">&quot;body.site&quot;</span>, <span class="dt">struc_zero =</span> <span class="ot">TRUE</span>, <span class="dt">neg_lb =</span> <span class="ot">TRUE</span>, <span class="dt">tol =</span> <span class="fl">1e-5</span>, </span>
+<span id="cb29-7"><a href="#cb29-7"></a>              <span class="dt">max_iter =</span> <span class="dv">100</span>, <span class="dt">conserve =</span> <span class="ot">TRUE</span>, <span class="dt">alpha =</span> <span class="fl">0.05</span>, <span class="dt">global =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb29-8"><a href="#cb29-8"></a>res &lt;-<span class="st"> </span>out<span class="op">$</span>res</span>
+<span id="cb29-9"><a href="#cb29-9"></a><span class="co"># select the bottom 20 with lowest p values</span></span>
+<span id="cb29-10"><a href="#cb29-10"></a>res.or_p &lt;-<span class="st"> </span><span class="kw">rownames</span>(res<span class="op">$</span>q_val[,<span class="st">&quot;body.sitetongue&quot;</span>])[base<span class="op">::</span><span class="kw">order</span>(res<span class="op">$</span>q_val[,<span class="st">&quot;body.sitetongue&quot;</span>])]</span>
+<span id="cb29-11"><a href="#cb29-11"></a>taxa_sig &lt;-<span class="st"> </span>res.or_p[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>]</span>
+<span id="cb29-12"><a href="#cb29-12"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(taxa_sig, ps.taxa.rel)</span>
+<span id="cb29-13"><a href="#cb29-13"></a><span class="co"># Only keep gut and tongue samples </span></span>
+<span id="cb29-14"><a href="#cb29-14"></a>ps.taxa.rel.sig &lt;-<span class="st"> </span><span class="kw">prune_samples</span>(<span class="kw">colnames</span>(<span class="kw">otu_table</span>(ps.taxa.sub)), ps.taxa.rel.sig)</span></code></pre></div>
+<p>Repeat heatmap script for the ANCOM result</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">data.frame</span>(<span class="kw">otu_table</span>(ps.taxa.rel.sig)))</span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="kw">rownames</span>(matrix) &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Species&quot;</span>])</span>
+<span id="cb30-3"><a href="#cb30-3"></a>metadata_sub &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps.taxa.rel.sig))</span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="co"># Define the annotation color for columns and rows</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a>annotation_col =<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb30-6"><a href="#cb30-6"></a>    <span class="dt">Subject =</span> <span class="kw">as.factor</span>(metadata_sub<span class="op">$</span>subject), </span>
+<span id="cb30-7"><a href="#cb30-7"></a>    <span class="st">`</span><span class="dt">Body site</span><span class="st">`</span> =<span class="st"> </span><span class="kw">as.factor</span>(metadata_sub<span class="op">$</span>body.site), </span>
+<span id="cb30-8"><a href="#cb30-8"></a>    <span class="dt">check.names =</span> <span class="ot">FALSE</span></span>
+<span id="cb30-9"><a href="#cb30-9"></a>)</span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="kw">rownames</span>(annotation_col) =<span class="st"> </span><span class="kw">rownames</span>(metadata_sub)</span>
+<span id="cb30-11"><a href="#cb30-11"></a></span>
+<span id="cb30-12"><a href="#cb30-12"></a>annotation_row =<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb30-13"><a href="#cb30-13"></a>    <span class="dt">Phylum =</span> <span class="kw">as.factor</span>(<span class="kw">tax_table</span>(ps.taxa.rel.sig)[, <span class="st">&quot;Phylum&quot;</span>])</span>
+<span id="cb30-14"><a href="#cb30-14"></a>)</span>
+<span id="cb30-15"><a href="#cb30-15"></a><span class="kw">rownames</span>(annotation_row) =<span class="st"> </span><span class="kw">rownames</span>(matrix)</span>
+<span id="cb30-16"><a href="#cb30-16"></a></span>
+<span id="cb30-17"><a href="#cb30-17"></a><span class="co"># ann_color should be named vectors</span></span>
+<span id="cb30-18"><a href="#cb30-18"></a>phylum_col =<span class="st"> </span>RColorBrewer<span class="op">::</span><span class="kw">brewer.pal</span>(<span class="kw">length</span>(<span class="kw">levels</span>(annotation_row<span class="op">$</span>Phylum)), <span class="st">&quot;Paired&quot;</span>)</span>
+<span id="cb30-19"><a href="#cb30-19"></a><span class="kw">names</span>(phylum_col) =<span class="st"> </span><span class="kw">levels</span>(annotation_row<span class="op">$</span>Phylum)</span>
+<span id="cb30-20"><a href="#cb30-20"></a>ann_colors =<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb30-21"><a href="#cb30-21"></a>    <span class="dt">Subject =</span> <span class="kw">c</span>(<span class="st">`</span><span class="dt">subject-1</span><span class="st">`</span> =<span class="st"> &quot;red&quot;</span>, <span class="st">`</span><span class="dt">subject-2</span><span class="st">`</span> =<span class="st"> &quot;blue&quot;</span>),</span>
+<span id="cb30-22"><a href="#cb30-22"></a>    <span class="st">`</span><span class="dt">Body site</span><span class="st">`</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">`</span><span class="dt">gut</span><span class="st">`</span> =<span class="st"> &quot;purple&quot;</span>, <span class="dt">tongue =</span> <span class="st">&quot;yellow&quot;</span>),</span>
+<span id="cb30-23"><a href="#cb30-23"></a>    <span class="dt">Phylum =</span> phylum_col</span>
+<span id="cb30-24"><a href="#cb30-24"></a>)</span>
+<span id="cb30-25"><a href="#cb30-25"></a>ComplexHeatmap<span class="op">::</span><span class="kw">pheatmap</span>(matrix, <span class="dt">scale=</span> <span class="st">&quot;row&quot;</span>, </span>
+<span id="cb30-26"><a href="#cb30-26"></a>                         <span class="dt">annotation_col =</span> annotation_col, </span>
+<span id="cb30-27"><a href="#cb30-27"></a>                         <span class="dt">annotation_row =</span> annotation_row, </span>
+<span id="cb30-28"><a href="#cb30-28"></a>                         <span class="dt">annotation_colors =</span> ann_colors)</span></code></pre></div>
 <p><img src="index_files/figure-html/ancombc-1.png" width="768" /></p>
 <p>The tour shall end here. In that you know how to import the microbiome data in R, you can continue exploring your data according to diverse tutorials including <a href="https://joey711.github.io/phyloseq/">phyloseq</a> from U.S., <a href="https://madsalbertsen.github.io/ampvis2/articles/ampvis2.html">ampvis2</a> from Denmark, and <a href="https://yulab-smu.top/MicrobiotaProcessWorkshop/articles/MicrobiotaProcessWorkshop.html">MicrobiotaProcess</a> from China.</p>
 <p>If you want a GUI software for your microbiome analysis, you may like <a href="https://www.microbiomeanalyst.ca/">microbiomeanalyst</a>, which was recently published on <a href="https://www.nature.com/articles/s41596-019-0264-1">Nature protocol</a>.</p>
