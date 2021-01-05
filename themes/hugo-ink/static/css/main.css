@@ -10,15 +10,12 @@ body {
 
 /* code */
 pre {
-  padding: 1em;
   overflow: auto;
   max-height: 200px;
 }
 code { background-color: #BC92CA; }
 pre code { 
   background: none;
-  white-space: pre;
-  margin: 0;
 }
 
 a {
