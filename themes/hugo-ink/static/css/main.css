@@ -13,8 +13,8 @@ pre {
   border: 1px solid #ddd;
   box-shadow: 1px 1px 1px #eee;
   padding: 1em;
-  overflow-x: auto;
-  max-width: 900px;
+  width: 100%;
+  max-width: 800px;
 }
 pre code { 
   background: none;
@@ -235,12 +235,12 @@ ul {
 }
 
 .wrapper {
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 800px;
     margin-top: 50px;
 }
 
