@@ -22,17 +22,6 @@ pre code {
   white-space: pre;
 }
 
-
-
-/* misc elements */
-img, iframe, video { max-width: 100%; }
-main { hyphens: auto; }
-blockquote {
-  background: #f9f9f9;
-  border-left: 2px solid #ccc;
-  padding: 3px 1em 3px;
-}
-
 a {
     color: #3700ff;
     text-decoration: none;
