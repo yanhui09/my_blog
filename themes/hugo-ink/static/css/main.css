@@ -18,6 +18,9 @@ pre {
 pre code { 
   background: none;
 }
+pre output { 
+  background: none;
+}
 
 
 /* misc elements */
