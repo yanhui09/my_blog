@@ -10,16 +10,14 @@ body {
 
 /* code */
 pre {
-  border: 1px solid #ddd;
-  box-shadow: 5px 5px 5px #eee;
   padding: 1em;
-  overflow-x: auto;
+  overflow: auto;
+  max-height: 150px;
 }
 code { background-color: #BC92CA; }
 pre code { 
   background: none;
   white-space: pre;
-  width: 100%;
 }
 
 a {
