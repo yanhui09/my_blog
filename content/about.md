@@ -4,7 +4,7 @@ title: About
 type: page
 ---
 
-My name is Yan Hui. I obtained my PhD study at University of Copenhagen under the supervision of [Dr. Dennis Sandris Nielsen](https://food.ku.dk/english/staff/?pure=en%2Fpersons%2Fdennis-sandris-nielsen(08539a0e-05f4-454e-ad2a-de195363dbd1)%2Factivities.html) and [Dr. Per Torp Sangild](https://ivh.ku.dk/english/employees/?pure=en%2Fpersons%2Fper-torp-sangild(d0225a7f-ad88-418d-8660-bff37f7358d9)%2Fdownloads.html). I had a bachelor and master degree of food science, but showed a huge interest in data analysis and coding when I stepped into the bioinformatic field during my PhD. I love to reduce repetitive work with code and keep it reproductive. 
+My name is Yan Hui. I obtained my PhD study at University of Copenhagen under the supervision of [Dr. Dennis Sandris Nielsen](https://food.ku.dk/english/staff/?pure=en%2Fpersons%2Fdennis-sandris-nielsen(08539a0e-05f4-454e-ad2a-de195363dbd1)%2Factivities.html) and [Dr. Per Torp Sangild](https://ivh.ku.dk/english/employees/?pure=en%2Fpersons%2Fper-torp-sangild(d0225a7f-ad88-418d-8660-bff37f7358d9)%2Fdownloads.html). I had a bachelor and master degree of food science, but showed a huge interest in data analysis and coding when I stepped into the bioinformatic field. I love to reduce repetitive work with code and keep it reproductive. 
 
 ## Interests
 Data visualization, Clound computing, New technologies
