@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Yan Hui</title>
+    <link>https://yanh.org/post/</link>
+    <description>Recent content in Posts on Yan Hui</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Yan Hui</copyright>
+    <lastBuildDate>Fri, 01 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://yanh.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial for microbiome analysis in R</title>
+      <link>https://yanh.org/2021/01/01/microbiome-r/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://yanh.org/2021/01/01/microbiome-r/</guid>
+      <description>What you will work onPreparationBuild phyloseq projectCheck the sequencing depth with rarefaction curvesAlpha diversityBeta diversityAbundance bar plotDifferential abundance analysisDESeq2ANCOM-BCBEFORE YOU START: This is a tutorial to analyze microbiome data with R. The tutorial starts from the processed output from metagenomic sequencing, i.e. feature matrix. It’s suitable for R users who wants to have hand-on tour of the microbiome world. This tutorial cover the common microbiome analysis e.</description>
+    </item>
+    
+  </channel>
+</rss>
